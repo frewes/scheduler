@@ -55,7 +55,7 @@ class App extends Component {
         // I don't love this way of doing it...
         let S = new Scheduler(E);
         S.buildAllTables();
-        console.log(E);
+
     }
 
     customise() {
@@ -66,26 +66,24 @@ class App extends Component {
     }
 
     generate() {
-        this.state.eventParams.populateFLL();
         console.log("GENERATING");
         this.setState({processing: true})
         setTimeout((() => {
             let S = new Scheduler(this.state.eventParams);
-            let count = 1000;
+            let count = 500;
             do {
                 S.buildAllTables();
-                console.log(this.state.eventParams);
                 S.fillAllTables();
-                console.log(this.state.eventParams);
                 S.evaluate();
             } while (this.state.eventParams.errors > 0 && count-- > 0);
+            if (this.state.eventParams.errors > 0) alert("Schedule generated with errors! Please adjust parameters");
             this.setState ({display: 'Review'});
             this.setState({processing: false});
         }), 50);
     }
 
     onSave() {
-      var filename =prompt("Enter filename", this.state.eventParams.title.replace(/ /g, '_'));
+      let filename =prompt("Enter filename", this.state.eventParams.title.replace(/ /g, '_'));
       // let json_str = JSON.stringify(this.state.eventParams,freeze);
       let json_str = JSON.stringify(this.state,freeze);
       if (filename != null) saveToFile_json(filename+".schedule",json_str);
@@ -122,7 +120,10 @@ class App extends Component {
                     </h1>
                     <InitForm event={this.state.eventParams} onChange={this.handleScheduleChange}/>
                     <Button color="warning" onClick={this.customise}>Customise</Button>&nbsp;
-                    <Button color="success" onClick={()=> {this.generate();}}>{this.state.processing ? "Generating..." : "Generate"}</Button>
+                    <Button color="success" onClick={()=> {
+                        this.state.eventParams.populateFLL();
+                        this.generate();
+                    }}>{this.state.processing ? "Generating..." : "Generate"}</Button>
 
                 </Jumbotron>
             );
