@@ -192,6 +192,7 @@ export default class SessionForm extends React.Component {
                         {this.props.session.type === TYPES.BREAK &&
                         <Button color='primary' onClick={this.props.onToggle}>Break applies to...</Button>}
                         {truth && <span>* Will actually start at {this.props.session.actualStartTime.time}</span>}
+                        <br/>
                         {this.props.advanced && <Button onClick={this.handleDelete} color='danger'><MdRemoveCircleOutline/> Delete</Button>}
 
                     </Form>

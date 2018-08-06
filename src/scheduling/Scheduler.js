@@ -317,10 +317,6 @@ export class Scheduler {
             if (startA === startB || (startA < startB && endA > startB) || (startB < startA && endB > startA))
                 return false;
         }
-        // console.log("Team is " + team.number);
-        // console.log(instance);
-        // console.log("Schedule: ")
-        // team.schedule.forEach(i => console.log(i));
         return true;
     }
 
