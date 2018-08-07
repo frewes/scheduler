@@ -93,7 +93,7 @@ export default class SessionForm extends React.Component {
         let grid = [];
         for (let i = 0; i < this.props.session.nLocs; i++) {
             grid.push([]);
-            grid[i].push({value: this.props.session.type.defaultLocs + " " + (i+1), readOnly: true});
+            grid[i].push({value: "Name of " + this.props.session.type.defaultLocs + " " + (i+1), readOnly: true});
             grid[i].push({value: this.props.session.locations[i]});
         }
         return grid;
@@ -170,10 +170,10 @@ export default class SessionForm extends React.Component {
                         <NumberInput label="Simultaneous Teams" min={1} value={this.props.session.nSims}
                                      onChange={this.updateNSims}/>
                         }
-                        {this.props.advanced &&
+                        {this.props.advanced && this.props.session.type !== TYPES.BREAK &&
                         <BooleanInput label="Extra time first?" value={this.props.session.extraTimeFirst}
                                       onChange={this.updateExtraFirst}/>}
-                        {this.props.advanced &&
+                        {this.props.advanced && this.props.session.type !== TYPES.BREAK  &&
                         <NumberInput label="Extra time every N" value={this.props.session.extraTimeEvery} min={0}
                                      onChange={this.updateExtraEvery}/>}
                         {this.props.session.type !== TYPES.BREAK && <strong>Locations</strong>}

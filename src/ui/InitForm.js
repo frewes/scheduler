@@ -31,7 +31,7 @@ export default class InitForm extends React.Component {
         let grid = [];
         for (let i = 0; i < this.props.event.days.length; i++) {
             grid.push([]);
-            grid[i].push({value: "Day " + (i+1), readOnly: true});
+            grid[i].push({value: "Name of Day " + (i+1), readOnly: true});
             grid[i].push({value: this.props.event.days[i]});
         }
         return grid;
