@@ -87,7 +87,7 @@ export class PdfGenerator {
   }
 
   sessionPage(session) {
-    let data = this.event.getSessionDataGrid(session.id)
+    let data = this.event.getSessionDataGrid(session.id, true)
     // headers are automatically repeated if the table spans over multiple pages
     // you can declare how many rows should be treated as headers
     var t = {headerRows: 1,dontBreakRows: true};
@@ -191,14 +191,15 @@ export class PdfGenerator {
     for (let i = 0; i < schedule.length; i++) {
       // If it's a break that applies to specific sessions, don't put it in.
       if (this.event.getSession(schedule[i].session_id).type === TYPES.BREAK && this.event.getSession(schedule[i].session_id).appliesTo.length > 0) continue;
-      var row = [];
-      var spot = schedule[i].teams.indexOf(team.id);
-      var num =" ("+schedule[i].num+")";
+      let row = [];
+      let spot = schedule[i].teams.indexOf(team.id);
+      let num =" ("+schedule[i].num+")";
       if ((schedule[i].teams.length - schedule[i].teams.indexOf((team.id))) <= schedule[i].surrogates) num = " ("+schedule[i].num+", surrogate)";
       if (this.event.getSession(schedule[i].session_id).type === TYPES.BREAK) num ="";
 
-      var loc = this.event.getSession(schedule[i].session_id).locations[spot+schedule[i].loc];
-      if (this.event.getSession(schedule[i].session_id).type === TYPES.BREAK) loc = this.event.getSession(schedule[i].session_id).locations[0];
+      let loc = this.event.getSession(schedule[i].session_id).locations[spot+schedule[i].loc];
+      // if (this.event.getSession(schedule[i].session_id).type === TYPES.BREAK) loc = this.event.getSession(schedule[i].session_id).locations[0];
+      if (this.event.getSession(schedule[i].session_id).type === TYPES.BREAK) loc = "";
       if (!loc) loc = "";
       row.push({text: schedule[i].time.time+num});
       row.push({text: this.event.getSession(schedule[i].session_id).name});

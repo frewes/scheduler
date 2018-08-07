@@ -159,7 +159,7 @@ export class EventParams {
         return A;
     }
 
-    getSessionDataGrid(id) {
+    getSessionDataGrid(id, pdf=false) {
         let session = this.getSession(id);
         let grid = [];
         let cols = [{value: "#"},{value: "Time"}];
@@ -189,7 +189,8 @@ export class EventParams {
                 for (let i = 0; i < instance.teams.length; i++) {
                     let x = instance.teams[i];
                     diff--;
-                    A.push({value: (x) ? this.getTeam(x).number : " X "})
+                    if (pdf) A.push({value: (x) ? (this.getTeam(x).number + "\n" + this.getTeam(x).name) : " X "})
+                    else A.push({value: (x) ? this.getTeam(x).number : " X "})
                 }
                 while (diff-- > 0) A.push({value: ""});
                 grid.push(A);
