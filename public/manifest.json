@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "FLL Scheduler",
+  "name": "FLL Scheduling software by Westling",
   "icons": [
     {
       "src": "favicon.ico",

@@ -99,7 +99,7 @@ export default class BasicsForm extends React.Component {
                 {this.props.cosmetic || <NumberInput label="Min. travel (mins)" large value={this.props.event.minTravel} onChange={this.updateMinTravel}/>}
                 {(this.props.advanced && !this.props.cosmetic) &&
                     <NumberInput label="Extra time (mins)" large value={this.props.event.extraTime} onChange={this.updateExtraTime}/>}
-                {dayInput};
+                {dayInput}
             </Container>
         );
     }
