@@ -153,7 +153,7 @@ export default class SessionForm extends React.Component {
                         <DateTimeInput label={"Start time" + ((truth) ? "*" : "")} value={this.props.session.startTime}
                                        onChange={this.updateStartTime}/>
                         <DateTimeInput label="Will be done by" immutable={this.props.session.type !== TYPES.BREAK}
-                                       value={this.props.session.endTime} onChange={this.updateEndTime}/>
+                                       value={(this.props.session.type !== TYPES.BREAK)?this.props.session.actualEndTime:this.props.session.endTime} onChange={this.updateEndTime}/>
                         {this.props.session.type !== TYPES.BREAK &&
                         <NumberInput label="Duration (mins)" min={1} value={this.props.session.len}
                                      onChange={this.updateLen}/>}
