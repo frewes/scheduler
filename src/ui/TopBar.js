@@ -32,9 +32,9 @@ export default class TopBar extends React.Component {
       let reader = new FileReader();
       console.log(file);
 
-      reader.onload = (e) => {
+      reader.onload = () => {
          this.props.onLoad(reader.result);
-      }
+      };
       reader.readAsText(file);
       // reader.readAsDataURL(file);
     }
@@ -51,7 +51,7 @@ export default class TopBar extends React.Component {
                             <NavLink>
                             </NavLink>
                         </NavItem>
-                        <NavItem><NavLink><a target="_blank" href={"https://drive.google.com/file/d/1xzPvQy3Y27xqUx8AfYTXZzzlg1g-IBaM/view?usp=sharing"}><MdInfoOutline size={20}/></a></NavLink></NavItem>
+                        <NavItem><NavLink><a target="_blank" href={"https://drive.google.com/open?id=1OwYJdgzUxW0YWj7O_UCFc73B9Jrr1Vbc"}><MdInfoOutline size={20}/></a></NavLink></NavItem>
                         <NavItem onClick={this.props.onSave}><NavLink><MdFileDownload size={20}/></NavLink></NavItem>
                         <NavItem><NavLink><label><MdFileUpload size={20}/><input type="file" accept=".schedule" onChange={this.onFileChange} hidden ref="input" /></label></NavLink></NavItem>
                     </Nav>

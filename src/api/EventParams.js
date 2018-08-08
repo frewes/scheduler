@@ -109,14 +109,19 @@ export class EventParams {
             let S = new SessionParams(this.uid_counter++, TYPES.MATCH_ROUND, "Round " + i, 4,
                 actualStart.clone(), actualEnd.clone());
             S.nSims = nSims;
-            S.len = matchLen;
-            S.buf = matchBuf;
+            if ( i === 1 ) {
+                S.len = matchLen+2;
+                S.buf = matchBuf+2;
+            } else {
+                S.len = matchLen-1;
+                S.buf = matchBuf-1;
+            }
             this.sessions.push(S);
         }
-        this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Robot Design Judging", nLocs,
-            actualStart.clone(), actualEnd.clone()));
-        this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Core Values Judging", nLocs,
-            actualStart.clone(), actualEnd.clone()));
+        // this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Robot Design Judging", nLocs,
+        //     actualStart.clone(), actualEnd.clone()));
+        // this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Core Values Judging", nLocs,
+        //     actualStart.clone(), actualEnd.clone()));
         this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Research Project Judging", nLocs,
             actualStart.clone(), actualEnd.clone()));
 
@@ -189,7 +194,7 @@ export class EventParams {
                 for (let i = 0; i < instance.teams.length; i++) {
                     let x = instance.teams[i];
                     diff--;
-                    if (pdf) A.push({value: (x) ? (this.getTeam(x).number + "\n" + this.getTeam(x).name) : " X "})
+                    if (pdf) A.push({value: (x) ? (this.getTeam(x).number + "\n" + this.getTeam(x).name) : " X "});
                     else A.push({value: (x) ? this.getTeam(x).number : " X "})
                 }
                 while (diff-- > 0) A.push({value: ""});
@@ -209,7 +214,7 @@ export class EventParams {
 
         let grid = [];
         let usesSurrogates = false;
-        this.sessions.forEach(s => {if (s.usesSurrogates) usesSurrogates = true;})
+        this.sessions.forEach(s => {if (s.usesSurrogates) usesSurrogates = true;});
         grid[0] = [{value: "Team", colSpan: 2}];
         for (let i = 0; i < this.sessions.length; i++) {
             if (this.sessions[i].type === TYPES.BREAK) continue;
