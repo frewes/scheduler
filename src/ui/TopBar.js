@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink } from 'reactstrap';
+import { Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+
+import ReactTooltip from 'react-tooltip'
 
 import MdInfoOutline from 'react-icons/lib/md/info-outline'
 import MdFileDownload from 'react-icons/lib/md/file-download'
@@ -51,9 +53,26 @@ export default class TopBar extends React.Component {
                             <NavLink>
                             </NavLink>
                         </NavItem>
-                        <NavItem><NavLink><a target="_blank" href={"https://drive.google.com/open?id=1OwYJdgzUxW0YWj7O_UCFc73B9Jrr1Vbc"}><MdInfoOutline size={20}/></a></NavLink></NavItem>
-                        <NavItem onClick={this.props.onSave}><NavLink><MdFileDownload size={20}/></NavLink></NavItem>
-                        <NavItem><NavLink><label><MdFileUpload size={20}/><input type="file" accept=".schedule" onChange={this.onFileChange} hidden ref="input" /></label></NavLink></NavItem>
+                        <UncontrolledDropdown nav inNavbar>
+                            <DropdownToggle data-tip="Info" nav caret>
+                                <MdInfoOutline size={20}/>
+                            </DropdownToggle>
+                            <DropdownMenu right>
+                                <a target="_blank" rel="noopener noreferrer" href={"https://drive.google.com/open?id=18c3pGwo1n5fGecGoHLuQIhDj9wcV98kh"}>
+                                    <DropdownItem>Manual</DropdownItem>
+                                </a>
+                                <a target="_blank" rel="noopener noreferrer" href={"https://goo.gl/forms/rJOM0xa24MVZqVhh2"}>
+                                    <DropdownItem>Report an issue...</DropdownItem>
+                                </a>
+                                <DropdownItem divider />
+                                <a target="_blank" rel="noopener noreferrer" href="mailto:fred@firstaustralia.org">
+                                    <DropdownItem>Contact developer</DropdownItem>
+                                </a>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
+                        <NavItem data-tip="Save current progress" onClick={this.props.onSave}><NavLink><MdFileDownload size={20}/></NavLink></NavItem>
+                        <ReactTooltip place="bottom" type="light" effect="solid"/>
+                        <NavItem data-tip="Load previous schedule" ><NavLink><label><MdFileUpload size={20}/><input type="file" accept=".schedule" onChange={this.onFileChange} hidden ref="input" /></label></NavLink></NavItem>
                     </Nav>
                 </Collapse>
             </Navbar>
