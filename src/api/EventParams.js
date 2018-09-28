@@ -339,6 +339,9 @@ export class EventParams {
     get logoBotRight() {return this._logoBotRight}
     set logoBotRight(x) {this._logoBotRight = x;}
 
+    get pilot() { return this._pilot; }
+    set pilot(p) { this._pilot = p; }
+
     get footerText() {return this._footer;}
     set footerText(x) {this._footer = x;}
 
@@ -381,6 +384,7 @@ export class EventParams {
         _endTime : o._endTime,
         _sessions : o._sessions,
         _days : o._days,
+        _pilot : o._pilot,
         errors : o.errors,
         _extraTime: o._extraTime,
         _minTravel: o._minTravel,
@@ -402,6 +406,7 @@ export class EventParams {
       E._extraTime = o._extraTime;
       E._sessions = o._sessions;
       E._days = o._days;
+      E._pilot = o._pilot;
       E.errors = o.errors;
       E._logoTopLeft = o._logoTopLeft;
       E._logoBotLeft = o._logoBotLeft;
