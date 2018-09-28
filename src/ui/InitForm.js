@@ -1,6 +1,7 @@
 import React from 'react';
 import TextInput from '../inputs/TextInput'
 import NumberInput from '../inputs/NumberInput'
+import BooleanInput from '../inputs/BooleanInput'
 import DateTimeInput from '../inputs/DateTimeInput'
 
 import { Container, Form, Table } from 'reactstrap';
@@ -14,7 +15,7 @@ export default class InitForm extends React.Component {
         // Default values....
         this.state = {
             grid: this.getDataGrid()
-        }
+        };
 
         this.getDataGrid = this.getDataGrid.bind(this);
         this.updateTitle = this.updateTitle.bind(this);
@@ -23,6 +24,7 @@ export default class InitForm extends React.Component {
         this.updateEndTime = this.updateEndTime.bind(this);
         this.updateNDays = this.updateNDays.bind(this);
         this.updateDays = this.updateDays.bind(this);
+        this.updatePilot = this.updatePilot.bind(this);
         this.updateTeamNames = this.updateTeamNames.bind(this);
 
         this.handleChange = this.handleChange.bind(this);
@@ -81,6 +83,12 @@ export default class InitForm extends React.Component {
         this.handleChange(E);
     }
 
+    updatePilot(value) {
+        let E = this.props.event;
+        E.pilot = value;
+        this.handleChange(E);
+    }
+
     updateTeamNames(e) {
         let E = this.props.event;
         E.tempNames = e;
@@ -97,6 +105,7 @@ export default class InitForm extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
                     <TextInput large label="Title: " value={this.props.event.title} onChange={this.updateTitle}/>
                     <NumberInput large min="4" label="Number of teams: " value={this.props.event.nTeams} onChange={this.updateNTeams}/>
+                    <BooleanInput label="Pilot judging program?" large value={this.props.event.pilot} onChange={this.updatePilot}/>
                     <NumberInput label="Number of days" large min={1} value={this.props.event.days.length} onChange={this.updateNDays}/>
                     <ReactDataSheet
                         data={this.state.grid}

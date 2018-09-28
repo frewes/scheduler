@@ -35,6 +35,7 @@ export class EventParams {
         this.days = ["Day 1"];
         this.startTime.days=this.days;
         this.endTime.days=this.days;
+        this.pilot = true;
 
         this.tempNames = null;
 
@@ -102,7 +103,7 @@ export class EventParams {
         let timePerMatch = Math.floor(timeAvailable / (this.nTeams * 3 / 2));
 
         let matchLen = Math.min(Math.ceil(timePerMatch/2),5);
-        let matchBuf = timePerMatch-matchLen;
+        let matchBuf = Math.max(timePerMatch-matchLen,0);
         let nSims = 2;
 
         for (let i = 1; i <= 3; i++) {
@@ -111,17 +112,19 @@ export class EventParams {
             S.nSims = nSims;
             if ( i === 1 ) {
                 S.len = matchLen+2;
-                S.buf = matchBuf+2;
+                S.buf = matchBuf+1;
             } else {
                 S.len = matchLen-1;
                 S.buf = matchBuf-1;
             }
             this.sessions.push(S);
         }
-        // this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Robot Design Judging", nLocs,
-        //     actualStart.clone(), actualEnd.clone()));
-        // this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Core Values Judging", nLocs,
-        //     actualStart.clone(), actualEnd.clone()));
+        if (!this.pilot) {
+            this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Robot Design Judging", nLocs,
+                actualStart.clone(), actualEnd.clone()));
+            this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Core Values Judging", nLocs,
+                actualStart.clone(), actualEnd.clone()));
+        }
         this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Research Project Judging", nLocs,
             actualStart.clone(), actualEnd.clone()));
 
