@@ -20,6 +20,7 @@ export default class InitForm extends React.Component {
         this.getDataGrid = this.getDataGrid.bind(this);
         this.updateTitle = this.updateTitle.bind(this);
         this.updateNTeams = this.updateNTeams.bind(this);
+        this.updateNTables = this.updateNTables.bind(this);
         this.updateStartTime = this.updateStartTime.bind(this);
         this.updateEndTime = this.updateEndTime.bind(this);
         this.updateNDays = this.updateNDays.bind(this);
@@ -83,6 +84,12 @@ export default class InitForm extends React.Component {
         this.handleChange(E);
     }
 
+    updateNTables(value) {
+        let E = this.props.event;
+        E.nTables = value;
+        this.handleChange(E);
+    }
+
     updatePilot(value) {
         let E = this.props.event;
         E.pilot = value;
@@ -105,6 +112,7 @@ export default class InitForm extends React.Component {
                 <Form onSubmit={this.handleSubmit}>
                     <TextInput large label="Title: " value={this.props.event.title} onChange={this.updateTitle}/>
                     <NumberInput large min="4" label="Number of teams: " value={this.props.event.nTeams} onChange={this.updateNTeams}/>
+                    <NumberInput large min="2" step="2" label="Number of competition tables: " value={this.props.event.nTables} onChange={this.updateNTables}/>
                     <BooleanInput label="Pilot judging program?" large value={this.props.event.pilot} onChange={this.updatePilot}/>
                     <NumberInput label="Number of days" large min={1} value={this.props.event.days.length} onChange={this.updateNDays}/>
                     <ReactDataSheet

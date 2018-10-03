@@ -36,6 +36,7 @@ export class EventParams {
         this.startTime.days=this.days;
         this.endTime.days=this.days;
         this.pilot = true;
+        this.nTables = 4;
 
         this.tempNames = null;
 
@@ -104,19 +105,25 @@ export class EventParams {
 
         let matchLen = Math.min(Math.ceil(timePerMatch/2),5);
         let matchBuf = Math.max(timePerMatch-matchLen,0);
-        let nSims = 2;
 
+        let rdLen = matchLen + 2;
+        let rdBuf = matchBuf + 1;
+        matchLen -= 1;
+        matchBuf -= 1;
+        let d = (rdLen+rdBuf - Math.ceil(30/this.nTables))
+        if (d < 0) {
+            rdLen -= Math.floor(d/2);
+            rdBuf -= Math.ceil(d/2);
+            matchBuf += Math.floor(d/2);
+        }
+
+        let nSims = 2;
         for (let i = 1; i <= 3; i++) {
-            let S = new SessionParams(this.uid_counter++, TYPES.MATCH_ROUND, "Round " + i, 4,
+            let S = new SessionParams(this.uid_counter++, TYPES.MATCH_ROUND, "Round " + i, this.nTables,
                 actualStart.clone(), actualEnd.clone());
             S.nSims = nSims;
-            if ( i === 1 ) {
-                S.len = matchLen+2;
-                S.buf = matchBuf+1;
-            } else {
-                S.len = matchLen-1;
-                S.buf = matchBuf-1;
-            }
+            S.len = ( i === 1 ) ? rdLen : matchLen;
+            S.buf = ( i === 1 ) ? rdBuf : matchBuf;
             this.sessions.push(S);
         }
         if (!this.pilot) {
@@ -308,6 +315,9 @@ export class EventParams {
     get extraTime() {return this._extraTime;}
     set extraTime(value) {this._extraTime = value};
 
+    get nTables() {return this._nTables;}
+    set nTables(value) {this._nTables = value};
+
     get display() {return this._display}
     set display(d) {this._display = d;}
 
@@ -366,6 +376,7 @@ export class EventParams {
         _sessions : o._sessions,
         _days : o._days,
         _pilot : o._pilot,
+        _nTables : o._nTables,
         errors : o.errors,
         _extraTime: o._extraTime,
         _minTravel: o._minTravel,
@@ -388,6 +399,7 @@ export class EventParams {
       E._sessions = o._sessions;
       E._days = o._days;
       E._pilot = o._pilot;
+      E._nTables = o._nTables || 4;
       E.errors = o.errors;
       E._logoTopLeft = o._logoTopLeft;
       E._logoBotLeft = o._logoBotLeft;
@@ -468,10 +480,6 @@ export class EventParams {
             a.schedule.push(iB);
             b.schedule.splice(b.schedule.indexOf(iB),1);
             b.schedule.push(iA);
-            // a.schedule.forEach(i => {if (i.session_id === sId) i = iB});
-            // b.schedule.forEach(i => {if (i.session_id === sId) i = iA});
-            // console.log(iA.teams.map(x => this.getTeam(x).number));
-            // console.log(iB.teams.map(x => this.getTeam(x).number));
             console.log(iA.teams);
             console.log(iB.teams);
             return null;

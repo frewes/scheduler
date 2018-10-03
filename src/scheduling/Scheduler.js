@@ -117,9 +117,9 @@ export class Scheduler {
 }
         let extraRounds = 0;
         if (session.type === TYPES.BREAK) everyN = Infinity;
-        for (var i = 0; i < L; i++) {
-            var d = Math.floor(session.nLocs/session.nSims);
-            var locOffset = ((i+locD)%d)*session.nSims;
+        for (let i = 0; i < L; i++) {
+            let d = Math.floor(session.nLocs/session.nSims);
+            let locOffset = ((i+locD)%d)*session.nSims;
             if ((i%L) < L-1) {
                 // Check that the schedule will finish...
                 let whenDone = this.timeInc(now, session.len, session);
