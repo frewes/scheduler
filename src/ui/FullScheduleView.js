@@ -9,7 +9,7 @@ import { Container, Row, Col, Nav, NavItem, NavLink, TabContent, TabPane } from 
 import SessionForm from "./SessionForm";
 import BasicsForm from "./BasicsForm";
 import TeamList from '../inputs/TeamList';
-
+import ToggleButton from 'react-toggle-button';
 
 export default class FullScheduleView extends React.Component {
     constructor(props) {
@@ -17,10 +17,20 @@ export default class FullScheduleView extends React.Component {
 
         this.state = {
             activeTab: 'sessions',
+            editable: false
         }
 
         this.getItems = this.getItems.bind(this);
+        this.onSwap = this.onSwap.bind(this);
         this.updatePDFSettings = this.updatePDFSettings.bind(this);
+        this.toggleEditable = this.toggleEditable.bind(this);
+    }
+
+    onSwap(sID, a, b) {
+        let E = this.props.event;
+        let err = E.swapTeams(sID, a.id, b.id);
+        if (err) alert(err);
+        else this.props.onSwap(E);
     }
 
     getItems() {
@@ -71,6 +81,9 @@ export default class FullScheduleView extends React.Component {
         this.props.onChange(E);
     }
 
+    toggleEditable() {
+        this.setState({editable: !this.state.editable});
+    }
 
 
     render() {
@@ -102,6 +115,11 @@ export default class FullScheduleView extends React.Component {
                             Generate Outputs
                         </NavLink>
                     </NavItem>
+                    {(this.props.event.errors === 0 && this.state.activeTab === 'sessions') ? <NavItem>
+                        <div onClick={this.toggleEditable}><small className="not-text">Editable</small>&nbsp;
+                            <ToggleButton value={this.state.editable} onToggle={this.toggleEditable}/></div>
+                    </NavItem> : ""}
+
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId='display'>
@@ -118,7 +136,7 @@ export default class FullScheduleView extends React.Component {
                                 .sort((a,b)=>{return a.type.priority-b.type.priority})
                                 .map(x => { return (
                                     <Col sm="12" md="6" key={x.id} >
-                                        <SingleScheduleView data={this.props.event.getSessionDataGrid(x.id)} session={x}/>
+                                        <SingleScheduleView id={x.id} data={this.props.event.getSessionDataGrid(x.id)} editable={this.state.editable} onSwap={this.onSwap} session={x}/>
                                     </Col>);
                                 })}
                         </Row>

@@ -198,7 +198,7 @@ export class EventParams {
                     let x = instance.teams[i];
                     diff--;
                     if (pdf) A.push({value: (x) ? (this.getTeam(x).number + "\n" + this.getTeam(x).name) : " X "});
-                    else A.push({value: (x) ? this.getTeam(x).number : " X "})
+                    else A.push({value: (x) ? this.getTeam(x).number : " X ", id: (x) ? x : null})
                 }
                 while (diff-- > 0) A.push({value: ""});
                 grid.push(A);
@@ -283,25 +283,6 @@ export class EventParams {
             grid.push(row);
         }
         return grid;
-    }
-
-    minTravelTime(team) {
-      let minTravel = Infinity;
-      team.schedule.forEach(i => {
-        team.schedule.forEach(j => {
-          if (i !== j) {
-            let sA = i.time.mins;
-            let eA = i.time.mins + this.getSession(i.session_id).len + (i.extraTime?this.extraTime:0);
-            let sB = j.time.mins;
-            let eB = j.time.mins + this.getSession(j.session_id).len + (i.extraTime?this.extraTime:0);
-            let dA = sB - eA;
-            let dB = sA - eB;
-            let d = (dA < 0)?dB:dA;
-            minTravel = (minTravel>d)?d:minTravel;
-          }
-        });
-      });
-      return minTravel;
     }
 
     get version() {return this._version;}
@@ -416,5 +397,109 @@ export class EventParams {
       if (!E.errors) E.errors = Infinity;
       console.log(E);
       return E;
+    }
+
+
+    /** ========================== UTILITIES ========================== **/
+
+    /**
+     Return true if the team can do the given instance.
+     Returns false if they don't have time to come from a previous instance or go to a later one.
+     if 'excl' is given, do not consider that session ID when checking this.
+     **/
+    canDo(team, instance, excl) {
+        if (team.extraTime && !instance.extra && this.getSession(instance.session_id).type !== TYPES.BREAK)
+            return false;
+        if (team.excludeJudging && this.getSession(instance.session_id).type === TYPES.JUDGING)
+            return false;
+        for (let i = 0; i < team.schedule.length; i++) {
+            if (this.getSession(team.schedule[i].session_id).type === TYPES.BREAK){
+                if (!this.getSession(team.schedule[i].session_id).applies(instance.session_id))
+                    continue;
+                if (this.getSession(instance.session_id).type === TYPES.BREAK) continue;
+            }
+            let startA = team.schedule[i].time.mins;
+            if (excl && team.schedule[i].session_id === excl) continue;
+            let extra = 0;
+            if (team.schedule[i].extra) extra = this.extraTime;
+            let endA = 0;
+            if (this.getSession(team.schedule[i].session_id).type === TYPES.BREAK)
+                endA = startA + this.getSession(team.schedule[i].session_id).len;
+            else
+                endA = startA + this.getSession(team.schedule[i].session_id).len + extra + this.minTravel;
+            let startB = instance.time.mins;
+            extra = 0;
+            if (instance.extra) extra = this.extraTime;
+
+            let endB = 0;
+            if (this.getSession(team.schedule[i].session_id).type === TYPES.BREAK)
+                endB = startB + this.getSession(instance.session_id).len;
+            else
+                endB = startB + this.getSession(instance.session_id).len + this.minTravel + extra;
+            if ((team.startTime.mins && startB < team.startTime.mins) || (team.endTime.mins && endB > team.endTime.mins)) return false;
+            if (startA === startB || (startA < startB && endA > startB) || (startB < startA && endB > startA))
+                return false;
+        }
+        return true;
+    }
+
+
+    swapTeams(sId, teamA, teamB) {
+        let a = this.getTeam(teamA);
+        let b = this.getTeam(teamB);
+        let iA = null;
+        let iB = null;
+        let canA = false;
+        let canB = false;
+        console.log(a);
+        a.schedule.forEach(i => {if (i.session_id === sId) iA = i});
+        console.log(b);
+        b.schedule.forEach(i => {if (i.session_id === sId) iB = i});
+
+        if (this.canDo(a, iB, sId)) canA = true;
+        if (this.canDo(b, iA, sId)) canB = true;
+
+        if (canA && canB) {
+            let locA = iA.teams.indexOf(teamA);
+            let locB = iB.teams.indexOf(teamB);
+            iA.teams[locA] = teamB;
+            iB.teams[locB] = teamA;
+            a.schedule.splice(a.schedule.indexOf(iA),1);
+            a.schedule.push(iB);
+            b.schedule.splice(b.schedule.indexOf(iB),1);
+            b.schedule.push(iA);
+            // a.schedule.forEach(i => {if (i.session_id === sId) i = iB});
+            // b.schedule.forEach(i => {if (i.session_id === sId) i = iA});
+            // console.log(iA.teams.map(x => this.getTeam(x).number));
+            // console.log(iB.teams.map(x => this.getTeam(x).number));
+            console.log(iA.teams);
+            console.log(iB.teams);
+            return null;
+        } else if (canA) {
+            return "Team " + b.number + " can't do that swap.";
+        } else if (canB) {
+            return "Team " + a.number + " can't do that swap.";
+        } else {
+            return "Neither team can do that";
+        }
+    }
+
+    minTravelTime(team) {
+        let minTravel = Infinity;
+        team.schedule.forEach(i => {
+            team.schedule.forEach(j => {
+                if (i !== j) {
+                    let sA = i.time.mins;
+                    let eA = i.time.mins + this.getSession(i.session_id).len + (i.extraTime?this.extraTime:0);
+                    let sB = j.time.mins;
+                    let eB = j.time.mins + this.getSession(j.session_id).len + (i.extraTime?this.extraTime:0);
+                    let dA = sB - eA;
+                    let dB = sA - eB;
+                    let d = (dA < 0)?dB:dA;
+                    minTravel = (minTravel>d)?d:minTravel;
+                }
+            });
+        });
+        return minTravel;
     }
 }

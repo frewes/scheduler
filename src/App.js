@@ -37,6 +37,7 @@ class App extends Component {
         this.onSave = this.onSave.bind(this);
         this.onLoad = this.onLoad.bind(this);
         this.updatePDFSettings = this.updatePDFSettings.bind(this);
+        this.update = this.update.bind(this);
     }
 
     initSchedule(initState) {
@@ -110,6 +111,17 @@ class App extends Component {
         this.setState({eventParams: E});
     }
 
+    update(event) {
+        // let E = this.state.eventParams;
+        // E.teams = event.teams;
+        // for (let i = 0; i < E.sessions.length; i++) {
+        //     E.sessions = event.sessions;
+        // }
+        // console.log(this.state.eventParams.sessions[6].schedule[0].teams.map(x => this.state.eventParams.getTeam(x).number));
+        // console.log(event.sessions[6].schedule[0].teams.map(x => event.getTeam(x).number));
+        this.setState({eventParams: event});
+    }
+
     render() {
         let mainWindow = <h1>An error occurred</h1>;
         if (this.state.display === 'Initialise') {
@@ -158,7 +170,7 @@ class App extends Component {
                     </Col>
                     <Col lg="9">
                         <Jumbotron>
-                            <FullScheduleView event={this.state.eventParams} onChange={this.updatePDFSettings}/>
+                            <FullScheduleView event={this.state.eventParams} onChange={this.updatePDFSettings} onSwap={this.update}/>
                         </Jumbotron>
                     </Col>
                 </Row>

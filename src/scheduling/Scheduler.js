@@ -187,7 +187,7 @@ export class Scheduler {
         for (let t = 0; t < instance.teams.length; t++) {
             let T = -1;
             for (let k = 0; k < teams.length; k++) {
-                if (this.canDo(teams[k],instance)) {
+                if (this.event.canDo(teams[k],instance)) {
                     T = k;
                     break;
                 }
@@ -233,7 +233,7 @@ export class Scheduler {
                 // Found empty slot!
                 // Now find a team A from the full set that can do this time
                 for (let tA = 0; tA < teams.length; tA++) {
-                    if (!this.canDo(teams[tA], instance_A, session.id)) continue;
+                    if (!this.event.canDo(teams[tA], instance_A, session.id)) continue;
                     // Now, find a team B from the lost set that can take team A's instance
                     let instance_B = null;
                     for (let x = 0; x < teams[tA].schedule.length; x++) {
@@ -252,7 +252,7 @@ export class Scheduler {
                         // break;
                     }
                     for (let tB = 0; tB < lostTeams.length; tB++) {
-                        if (!this.canDo(lostTeams[tB], instance_B)) continue;
+                        if (!this.event.canDo(lostTeams[tB], instance_B)) continue;
                         // Found a team that can swap with A!
                         // Now, swap teams A and B
                         // Add instanceA to teamA
@@ -275,49 +275,6 @@ export class Scheduler {
             }
         });
         return fixed;
-    }
-
-    /** ========================== UTILITIES ========================== **/
-
-    /**
-     Return true if the team can do the given instance.
-     Returns false if they don't have time to come from a previous instance or go to a later one.
-     if 'excl' is given, do not consider that session ID when checking this.
-     **/
-    canDo(team, instance, excl) {
-        if (team.extraTime && !instance.extra && this.event.getSession(instance.session_id).type !== TYPES.BREAK)
-            return false;
-        if (team.excludeJudging && this.event.getSession(instance.session_id).type === TYPES.JUDGING)
-            return false;
-        for (let i = 0; i < team.schedule.length; i++) {
-            if (this.event.getSession(team.schedule[i].session_id).type === TYPES.BREAK){
-                if (!this.event.getSession(team.schedule[i].session_id).applies(instance.session_id))
-                    continue;
-                if (this.event.getSession(instance.session_id).type === TYPES.BREAK) continue;
-            }
-            let startA = team.schedule[i].time.mins;
-            if (excl && team.schedule[i].session_id === excl) continue;
-            let extra = 0;
-            if (team.schedule[i].extra) extra = this.event.extraTime;
-            let endA = 0;
-            if (this.event.getSession(team.schedule[i].session_id).type === TYPES.BREAK)
-                endA = startA + this.event.getSession(team.schedule[i].session_id).len;
-            else
-                endA = startA + this.event.getSession(team.schedule[i].session_id).len + extra + this.event.minTravel;
-            let startB = instance.time.mins;
-            extra = 0;
-            if (instance.extra) extra = this.event.extraTime;
-
-            let endB = 0;
-            if (this.event.getSession(team.schedule[i].session_id).type === TYPES.BREAK)
-                endB = startB + this.event.getSession(instance.session_id).len;
-            else
-                endB = startB + this.event.getSession(instance.session_id).len + this.event.minTravel + extra;
-            if ((team.startTime.mins && startB < team.startTime.mins) || (team.endTime.mins && endB > team.endTime.mins)) return false;
-            if (startA === startB || (startA < startB && endA > startB) || (startB < startA && endB > startA))
-                return false;
-        }
-        return true;
     }
 
     /**
