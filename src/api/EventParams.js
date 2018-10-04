@@ -99,6 +99,7 @@ export class EventParams {
                 startLunch.clone(24*60), endLunch.clone(24*60)));
             this.getSession(this.uid_counter-1).universal = true;
         }
+
         let timeAvailable = this.endTime.mins - this.startTime.mins;
         this.sessions.filter(s=>s.type===TYPES.BREAK).forEach(s=>{timeAvailable = timeAvailable - (s.endTime.mins-s.startTime.mins)});
         let timePerMatch = Math.floor(timeAvailable / (this.nTeams * 3 / 2));
@@ -106,14 +107,14 @@ export class EventParams {
         let matchLen = Math.min(Math.ceil(timePerMatch/2),5);
         let matchBuf = Math.max(timePerMatch-matchLen,0);
 
-        let rdLen = matchLen + 2;
-        let rdBuf = matchBuf + 1;
-        matchLen -= 1;
-        matchBuf -= 1;
+        let rdLen = matchLen + matchBuf;
+        let rdBuf = 0;
+        // matchLen -= 1;
+        // matchBuf -= 1;
         let d = (rdLen+rdBuf - Math.ceil(30/this.nTables))
-        if (d < 0) {
-            rdLen -= Math.floor(d/2);
-            rdBuf -= Math.ceil(d/2);
+        if (d < 0 && this.pilot) {
+            rdLen -= d;
+            // rdBuf -= Math.ceil(d/2);
             matchBuf += Math.floor(d/2);
         }
 
@@ -131,6 +132,17 @@ export class EventParams {
                 actualStart.clone(), actualEnd.clone()));
             this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Core Values Judging", nLocs,
                 actualStart.clone(), actualEnd.clone()));
+        } else {
+            let roundOneLength = (rdLen+rdBuf)*(this.nTeams/2);
+            let roundOneEnd = actualStart.mins + roundOneLength;
+            console.log(this.sessions[1]);
+            console.log(roundOneEnd);
+            let dif = roundOneEnd - this.sessions[1].startTime.mins;
+            console.log(dif);
+            if (dif > 0) {
+                this.sessions[1].startTime = this.sessions[1].startTime.clone(dif);
+                this.sessions[1].endTime = this.sessions[1].endTime.clone(dif);
+            }
         }
         this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Research Project Judging", nLocs,
             actualStart.clone(), actualEnd.clone()));

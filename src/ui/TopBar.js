@@ -58,7 +58,7 @@ export default class TopBar extends React.Component {
                                 <MdInfoOutline size={20}/>
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <a target="_blank" rel="noopener noreferrer" href={"https://drive.google.com/open?id=1TjqgvO773Vy5Wonmx26zbdA8kkUs5fID"}>
+                                <a target="_blank" rel="noopener noreferrer" href={"https://drive.google.com/open?id=1M6hbc0JTFlVmaMO2wnUz-YlrN_BcBok4"}>
                                     <DropdownItem>Manual</DropdownItem>
                                 </a>
                                 <a target="_blank" rel="noopener noreferrer" href={"https://goo.gl/forms/rJOM0xa24MVZqVhh2"}>
