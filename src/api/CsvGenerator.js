@@ -28,16 +28,16 @@ export class CsvGenerator {
 
         this.event.teams.forEach(t => {csv += t.number + "," + t.name + "," + t.pitNum + ",\n";});
 
-        csv += "Block Format,2";
+        csv += "Block Format,2\n";
         let rankingMatches = 0;
         let allRounds = this.event.getSessions(TYPES.MATCH_ROUND);
         allRounds.forEach(S => {rankingMatches += S.schedule.length;});
         csv += "Number of Ranking Matches," + rankingMatches + "\n";
-        csv += "Number of Tables," + allRounds[0].nLocs + "\n";
-        csv += "Number of Teams per Table," + allRounds[0].nSims + "\n";
-        csv += "Number of Simultaneous Tables," + Math.floor(allRounds[0].nLocs/allRounds[0].nSims) + "\n";
+        csv += "Number of Tables," + allRounds[0].nLocs/2 + "\n";
+        csv += "Number of Teams per Table,2\n";
+        csv += "Number of Simultaneous Tables," + Math.floor(allRounds[0].nLocs/2/allRounds[0].nSims) + "\n";
         csv += "Table Names,";
-        allRounds[0].locations.forEach(l => {csv += l + ",";});
+        allRounds[0].locations.forEach(l => {csv += l.replace(' ','-') + ",";});
         csv += "\n";
         allRounds.forEach(round => {
             round.schedule.forEach(instance => {
@@ -50,6 +50,7 @@ export class CsvGenerator {
               csv += CsvGenerator.TimeToExcel(tmp) + ",";
               for (let dummy = 0; dummy < instance.loc; dummy++) csv += ",";
               instance.teams.forEach(t => {csv += this.event.getTeam(t).number + ","});
+              for (let dummy = instance.loc + instance.teams.length; dummy < allRounds[0].nLocs; dummy++) csv+=",";
               csv += "\n";
             });
         });
@@ -83,13 +84,13 @@ export class CsvGenerator {
         let allPRounds = this.event.getSessions(TYPES.MATCH_ROUND_PRACTICE);
         if (allPRounds.length === 0) return csv;
         allPRounds.forEach(S => {practiceMatches += S.schedule.length;});
-        csv += "Block Format,4";
+        csv += "Block Format,4\n";
         csv += "Number of Practice Matches," + practiceMatches + "\n";
-        csv += "Number of Tables," + allPRounds[0].nLocs + "\n";
-        csv += "Number of Teams per Table," + allPRounds[0].nSims + "\n";
-        csv += "Number of Simultaneous Tables," + Math.floor(allPRounds[0].nLocs/allPRounds[0].nSims) + "\n";
+        csv += "Number of Tables," + allRounds[0].nLocs/2 + "\n";
+        csv += "Number of Teams per Table,2\n";
+        csv += "Number of Simultaneous Tables," + Math.floor(allRounds[0].nLocs/2/allRounds[0].nSims) + "\n";
         csv += "Table Names,";
-        allPRounds[0].locations.forEach(l => {csv += l + ",";});
+        allRounds[0].locations.forEach(l => {csv += l.replace(' ','-') + ",";});
         csv += "\n";
         allPRounds.forEach(round => {
             round.schedule.forEach(instance => {
@@ -102,6 +103,7 @@ export class CsvGenerator {
                 csv += CsvGenerator.TimeToExcel(tmp) + ",";
                 for (let dummy = 0; dummy < instance.loc; dummy++) csv += ",";
                 instance.teams.forEach(t => {csv += this.event.getTeam(t).number + ","});
+                for (let dummy = instance.loc + instance.teams.length; dummy < allRounds[0].nLocs; dummy++) csv+=",";
                 csv += "\n";
             });
         });
