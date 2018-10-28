@@ -14,17 +14,6 @@ export class PdfGenerator {
         logo3: this._event.logoBotLeft,
         logo4: this._event.logoBotRight,
     };
-    console.log(this.imageDict);
-    // this.styleDict = {
-    //     header: {fontSize: this._event.titleFontSize,bold: true,alignment: 'center'},
-    //     footer: {fontSize: 14,bold: true,alignment: 'center',color: 'grey'},
-    //     header2: {fontSize: 20,bold: true,alignment: 'center'},
-    //     tablebody: {fontSize: 8,alignment:'center'},
-    //     extraTime: {alignment: 'center',color: 'red'},
-    //     tablehead: {fontSize: 10,bold: true,alignment:'center'},
-    //     breakrow: {bold: true,alignment:'center',fillColor: '#eeeeee'},
-    //     teamEntry:{fontSize:this._event.baseFontSize, alignment:'center'}
-    // };
     this.styleDict = {
         header: {fontSize: this._event.titleFontSize,bold: true,alignment: 'center'},
         footer: {fontSize: this._event.baseFontSize+2,bold: true,alignment: 'center',color: 'grey'},
@@ -48,7 +37,7 @@ export class PdfGenerator {
       prefix=prompt("File name prefix", this.event.title.replace(/ /g,"-"));
       if (prefix === null) return;
     }
-    for (var i = 0; i < this.event.teams.length; i++) {
+    for (let i = 0; i < this.event.teams.length; i++) {
       if (this.event.teams[i].name.length > 12) this.styleDict.teamEntry.fontSize = 10;
       if (this.event.teams[i].name.length > 16) this.styleDict.teamEntry.fontSize = 9;
       if (this.event.teams[i].name.length > 20) this.styleDict.teamEntry.fontSize = 8;
@@ -58,6 +47,8 @@ export class PdfGenerator {
     this.sessionPdf(TYPES.MATCH_ROUND_PRACTICE,download,prefix);
     this.sessionPdf(TYPES.TYPE_MATCH_FILLER,download,prefix);
     this.sessionPdf(TYPES.TYPE_MATCH_FILLER_PRACTICE,download,prefix);
+    this.teamListPage(this.event.teams, download, prefix);
+    this.daySchedulePage(download, prefix);
     this.allTeamsPdf(download,prefix);
     this.indivTeamsPdf(download,prefix);
   }
@@ -86,24 +77,87 @@ export class PdfGenerator {
     }
   }
 
+  teamListPage(teams, download, prefix) {
+      this.buildDoc();
+      let t = {headerRows: 1, dontBreakRows: true};
+      t.widths = new Array(2);
+      t.widths[0] = 100;
+      t.widths[1] = 400;
+      t.body = [];
+      let header = [];
+      header.push({text:"Number", alignment: 'center'});
+      header.push({text:"Name"});
+      t.body.push(header);
+
+      teams.forEach(x => {
+          let row = [];
+          row.push({text:x.number, alignment: 'center'});
+          row.push({text:x.name});
+          t.body.push(row);
+      });
+
+      this.doc.content.push({text: "Team List", style:'header2',margin:[0,10]});
+      this.doc.content.push({table: t,layout: 'lightHorizontalLines'});
+
+      try {
+          if (download) pdfMake.createPdf(this.doc).download((prefix+"-team-list.pdf").replace(/ /g, "-"));
+          else pdfMake.createPdf(this.doc).open();
+      } catch (err) {
+          alert("Error printing: " + err.message);
+      }
+  }
+
+  daySchedulePage(download, prefix) {
+    this.buildDoc();
+    let t = {headerRows: 1, dontBreakRows: true};
+    t.widths = new Array(3);
+    t.widths[0] = 100;
+    t.widths[1] = 100;
+    t.widths[2] = 300;
+    t.body = [];
+    let header = [];
+    header.push({text:"Start"});
+    header.push({text:"End"});
+    header.push({text:"Event"});
+    t.body.push(header);
+
+    let sorted = this.event.sessions.sort((a,b) => { return a.actualStartTime.mins - b.actualStartTime.mins});
+    for (let i = 0; i < sorted.length; i++) {
+      let row = [];
+      row.push(sorted[i].actualStartTime.time);
+      row.push(sorted[i].actualEndTime.time);
+      row.push(sorted[i].name);
+      t.body.push(row);
+    }
+    this.doc.content.push({text: "Day Schedule", style:'header2',margin:[0,10]});
+    this.doc.content.push({table: t,layout: 'lightHorizontalLines'});
+
+    try {
+        if (download) pdfMake.createPdf(this.doc).download((prefix+"-day-schedule.pdf").replace(/ /g, "-"));
+        else pdfMake.createPdf(this.doc).open();
+    } catch (err) {
+        alert("Error printing: " + err.message);
+    }
+  }
+
   sessionPage(session) {
-    let data = this.event.getSessionDataGrid(session.id, true)
+    let data = this.event.getSessionDataGrid(session.id, true);
     // headers are automatically repeated if the table spans over multiple pages
     // you can declare how many rows should be treated as headers
-    var t = {headerRows: 1,dontBreakRows: true};
+    let t = {headerRows: 1,dontBreakRows: true};
     t.widths = new Array(session.nLocs+2);
-    var w = 515/(session.nLocs+2);
-    for (var i = 0; i < session.nLocs+2; i++) t.widths[i] = (i<2) ? 'auto':'*';
+    let w = 515/(session.nLocs+2);
+    for (let i = 0; i < session.nLocs+2; i++) t.widths[i] = (i<2) ? 'auto':'*';
     t.widths[0] = w;
     t.body = [];
     //Header row
-    var header = [];
+    let header = [];
     for (let i = 0; i < data[0].length; i++) header.push({text:data[0][i].value,alignment:'center'});
     t.body.push(header);
 
     // All individual rows
     for (let i = 1; i < data.length; i++) {
-      var row = [];
+      let row = [];
       row.push({text:data[i][0].value.toString(),alignment:'center'});
       row.push({text:data[i][1].value.toString(),alignment:'center'});
       if (data[i][2].colSpan) {
@@ -111,8 +165,8 @@ export class PdfGenerator {
         t.body.push(row);
         continue;
       }
-      // var diff = session.nLocs;
-      for (var j = 2; j < data[i].length; j++) {
+      // let diff = session.nLocs;
+      for (let j = 2; j < data[i].length; j++) {
         if (data[i][j] === null) row.push({});
         else row.push({text:data[i][j].value.toString(),style: 'teamEntry'});
       }
@@ -144,7 +198,7 @@ export class PdfGenerator {
     for (let k = 0; k < data.length; k++) {
       t.body[k] = [];
       let curStyle = (k<2)?"tablehead":"tablebody";
-      let col = "blue"
+      let col = "blue";
       for (let i = 0; i < data[k].length; i++) {
         // Hack way to calculate alternating colours.  TODO: Fix
         col = (i%4 > 1) ? 'blue' : 'black';
@@ -180,7 +234,7 @@ export class PdfGenerator {
     this.doc.content.push({text: team.number + ": " + team.name, style:'header2',margin:[0,10]});
     let t = {headerRows:1,dontBreakRows:true};
     t.widths = new Array(3);
-    for (var i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i++) {
       t.widths[i] = (i<-1) ? 'auto':'*';
     }
     t.body = [];
@@ -252,7 +306,7 @@ export class PdfGenerator {
       text: this.event.footerText,
       style: 'footer',
       margin:[0,50,0,0]
-    }
+    };
     this.doc.pageMargins = [40,120,40,130];
     this.doc.pageSize = 'A4';
     this.doc.images = this.imageDict;
