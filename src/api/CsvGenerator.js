@@ -10,10 +10,10 @@ export class CsvGenerator {
         return this._event;
     }
 
-    makeCSV() {
-        let filename = "";
+    makeCSV(fname) {
+        let filename = fname;
         let download = true;
-        if (download) {
+        if (download && !fname) {
             filename = prompt("File name", this.event.title.replace(/ /g, "-"));
             if (filename === null) return;
         }

@@ -83,8 +83,9 @@ class App extends Component {
         }), 50);
     }
 
-    onSave() {
-      let filename =prompt("Enter filename", this.state.eventParams.title.replace(/ /g, '_'));
+    onSave(fname) {
+      let filename=fname;
+      if (!fname) filename =prompt("Enter filename", this.state.eventParams.title.replace(/ /g, '_'));
       // let json_str = JSON.stringify(this.state.eventParams,freeze);
       let json_str = JSON.stringify(this.state,freeze);
       if (filename != null) saveToFile_json(filename+".schedule",json_str);
@@ -170,7 +171,7 @@ class App extends Component {
                     </Col>
                     <Col lg="9">
                         <Jumbotron>
-                            <FullScheduleView event={this.state.eventParams} onChange={this.updatePDFSettings} onSwap={this.update}/>
+                            <FullScheduleView event={this.state.eventParams} save={this.onSave} onChange={this.updatePDFSettings} onSwap={this.update}/>
                         </Jumbotron>
                     </Col>
                 </Row>

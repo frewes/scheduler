@@ -145,7 +145,7 @@ export default class FullScheduleView extends React.Component {
                         <IndivScheduleView data={this.props.event.getIndivDataGrid()}/>
                     </TabPane>
                     <TabPane tabId='outputs'>
-                        <OutputGenView data={this.props.event} handleChange={this.updatePDFSettings}/>
+                        <OutputGenView data={this.props.event} save={this.props.save} handleChange={this.updatePDFSettings}/>
                     </TabPane>
                 </TabContent>
             </Container>

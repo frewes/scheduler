@@ -30,10 +30,10 @@ export class PdfGenerator {
 
   get event() { return this._event; }
 
-  makePDFs() {
-    let prefix="";
+  makePDFs(fname) {
+    let prefix=fname;
     let download = true;
-    if (download) {
+    if (download && !fname) {
       prefix=prompt("File name prefix", this.event.title.replace(/ /g,"-"));
       if (prefix === null) return;
     }

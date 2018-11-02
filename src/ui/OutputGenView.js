@@ -30,6 +30,7 @@ export default class OutputGenView extends Component {
         this.onTLChange = this.onTLChange.bind(this);
         this.onTRChange = this.onTRChange.bind(this);
         this.onBLChange = this.onBLChange.bind(this);
+        this.downloadAll = this.downloadAll.bind(this);
         this.onBRChange = this.onBRChange.bind(this);
     }
     toggle() {
@@ -38,14 +39,23 @@ export default class OutputGenView extends Component {
         });
     }
 
-    generatePDF() {
-      let p = new PdfGenerator(this.props.data);
-      p.makePDFs();
+    downloadAll() {
+        let name = prompt("File name prefix", this.props.data.title.replace(/ /g,"-"));
+        if (name === null) return;
+        this.generatePDF(name);
+        this.generateCSV(name);
+        this.props.save(name);
     }
 
-    generateCSV() {
+
+    generatePDF(fname) {
+        let p = new PdfGenerator(this.props.data);
+        p.makePDFs(fname);
+    }
+
+    generateCSV(fname) {
         let c = new CsvGenerator(this.props.data);
-        c.makeCSV();
+        c.makeCSV(fname);
     }
 
     updateTitleSize(value) {
@@ -169,22 +179,34 @@ export default class OutputGenView extends Component {
                 <strong>Outputs</strong>
                 <hr/>
                 <Row>
-                    <Col lg="6">
+                    <Col lg="12">
                         <Card body>
-                            <CardTitle>CSV</CardTitle>
-                            <CardText>Export to CSV format used by the FLL scoring system</CardText>
-                            <Button color="success" onClick={this.generateCSV}>Go!</Button>
-                        </Card>
-                    </Col>
-                    <Col lg="6">
-                        <Card body>
-                            <CardTitle>PDF</CardTitle>
-                            <CardText>Export ready-to-print formatted PDFs</CardText>
-                            <Button color="primary" block onClick={this.toggle}>Edit format...</Button>
-                            <Button color="success" block onClick={this.generatePDF}>Go!</Button>
+                            <CardTitle>Download all</CardTitle>
+                            <CardText>Download PDFs, a CSV and a saved schedule file</CardText>
+                            <Button color="primary" block onClick={this.toggle}>Edit PDF format...</Button>
+                            <br/>
+                            <Button color="success" onClick={this.downloadAll}>Go!</Button>
                         </Card>
                     </Col>
                 </Row>
+                <br/>
+                {/*<Row>*/}
+                    {/*<Col lg="6">*/}
+                        {/*<Card body>*/}
+                            {/*<CardTitle>CSV only</CardTitle>*/}
+                            {/*<CardText>Export to CSV format used by the FLL scoring system</CardText>*/}
+                            {/*<Button color="success" onClick={this.generateCSV}>Go!</Button>*/}
+                        {/*</Card>*/}
+                    {/*</Col>*/}
+                    {/*<Col lg="6">*/}
+                        {/*<Card body>*/}
+                            {/*<CardTitle>PDF only</CardTitle>*/}
+                            {/*<CardText>Export ready-to-print formatted PDFs</CardText>*/}
+                            {/*<Button color="primary" block onClick={this.toggle}>Edit format...</Button>*/}
+                            {/*<Button color="success" block onClick={this.generatePDF}>Go!</Button>*/}
+                        {/*</Card>*/}
+                    {/*</Col>*/}
+                {/*</Row>*/}
             </Container>
         );
     }
