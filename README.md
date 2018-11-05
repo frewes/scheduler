@@ -7,6 +7,9 @@
 
 <a name="changes"></a>
 # 1. Changelog
+## Version 3.3.3
+* Edited individual schedule output format to make it possible to copy it somewhere else as a table.
+
 ## Version 3.3.2
 * Updated the manual to be a github README
 * Fixed a bug in save file generation (filename related)

@@ -5,7 +5,8 @@ import { Table } from 'reactstrap';
 
 
 export default class IndivScheduleView extends React.Component {
-    render() {
+
+    renderAsDataSheet() {
         return (
             <div>
                 <strong>Individual Schedules</strong>
@@ -21,6 +22,28 @@ export default class IndivScheduleView extends React.Component {
                     )}
                 />
             </div>
-        )
+        );
     }
+
+    renderAsTable() {
+        return (
+            <div>
+                <strong>Individual Schedules</strong>
+                <Table className={"datagrid-custom"} >
+                    <tbody>
+                    {this.props.data.map((x,i) =>
+                        <tr key={i}>{x.map((y,j) =>
+                            <td colSpan={y.colSpan} className={y.className} key={j}>{y.value}</td>)
+                        }</tr>)
+                    }
+                    </tbody>
+                </Table>
+            </div>
+        );
+    }
+
+    render() {
+        return this.renderAsTable();
+    }
+
 }
