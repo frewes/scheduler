@@ -68,12 +68,12 @@ When you generate a schedule (getting ahead of ourselves a little), the system w
 
 This lists out the various activities that will happen during the day, and the times associated.  A typical example is shown below.
 
-![Day Schedule](screenshots/day-schedule.png)
+![Day Schedule](screenshots/day-schedule.PNG)
 
 ## Saving your progress
 At the top of the page, there are a few controls.  The info menu provides some options for understanding or providing feedback, but the other two allow you to save your schedule or load a previous one.
 
-![Info bar](./screenshots/info-bar.PNG)
+![Info bar](screenshots/info-bar.png)
 
 Wherever you are in the schedule generation process, you can press the Download button to download a .schedule file.  For instance, you can (early in the season) generate a schedule with your estimated number of teams to make sure you have your parameters right, then load it closer to the competition and change team names.
 
@@ -96,7 +96,7 @@ Day names: Only to be used for multi-day tournaments, specify what the days are 
 * **Team names:** Here, add your list of team names.  If you have added any number of stand-ins, remember to add their names as such.
 At this point, press “Generate” and move on to  “Output”.
 
-![Init Form](./screenshots/init-form.PNG)
+![Init Form](screenshots/init-form.png)
 
 ## Customisation
 When you specify the basic tournament settings, the scheduler attempts to select other settings for you to make the schedule work.  However, this will not work for everyone.  If you need to customise the default schedule choices, here are the menus you will be using.
@@ -109,12 +109,12 @@ The Basics tab specifies the tournament details.  There are, by default, three s
 * **Minimum travel time (minutes):** It’s generally unreasonable to expect teams to have a match starting at the same time as their judging session finishes, and this is a really easy way to have a schedule run late with grumpy teams.  Instead, we add a buffer time to allow teams to travel between different events.  10 minutes is the default, and is generally a good estimate, though you can try turning it up to give teams more time.  If the schedule is failing to generate, lowering this number might help (especially if judging and robot matches are close to each other).
 * **Day names:** In a single-day tournament, this control is not necessary.  In a multi-day tournament, this sets how the days are referred to.
 
-![Customisation Tab, Basics](./screenshots/custom-tab-basics.png)
+![Customisation Tab, Basics](screenshots/custom-tab-basics.PNG)
 
 Advanced features:
 * **Extra time (mins):** This control is only used if you add “extra time” to any team, match, or judging session.  When you add extra time, the number specified here is the one used.  For example, if Team #4 needs extra time (e.g. the students do not speak English and need a translator) and you specify this in the Teams tab, then they will be given 5 minutes extra (in this case).
 
-![Customisation Tab, Basics, Advanced mode ](./screenshots/custom-tab-basics-advanced.png)
+![Customisation Tab, Basics, Advanced mode ](screenshots/custom-tab-basics-advanced.PNG)
 
 ### Teams
 In the Teams tab, you set the details of each individual team.  You can also add/delete teams.  The main table grid in this tab is an embedded spreadsheet, so you can copy whole columns to/from an Excel spreadsheet or similar.
@@ -124,7 +124,7 @@ In the Teams tab, you set the details of each individual team.  You can also add
 * **Pit number:** This is a value used in the FLL Scoring System, but does not need to be set for most tournaments; feel free to ignore this.
 * **Delete team:** Press the red delete button to remove a particular team.
 
-![Customisation Tab, Teams](./screenshots/custom-tab-teams.png)
+![Customisation Tab, Teams](screenshots/custom-tab-teams.PNG)
 
 In advanced mode, four extra fields are provided.  These fields cannot be edited directly from the table, but if you press the “Edit…” button you can change them through the “Advanced Edit” modal.
 * **Exclude from judging?** Teams sometimes need to be excluded from judging.  You can do this with stand-in teams, or teams that do not qualify for awards.
@@ -132,7 +132,7 @@ In advanced mode, four extra fields are provided.  These fields cannot be edited
 * **Arrives:** The team will be arriving at a particular time and all sessions must be later than this.  If empty, it is assumed they arrive in time for the first scheduled session.
 * **Leaves:** The team must leave by a particular time and all sessions must be earlier than this.  If empty, it is assumed they stay until the last scheduled session.
 
-![Customisation Tab, Teams, Advanced mode ](./screenshots/custom-tab-teams-advanced.png)
+![Customisation Tab, Teams, Advanced mode ](screenshots/custom-tab-teams-advanced.PNG)
 
 ### Judging
 In the Judging tab, you can control the parameters associated with judging.
@@ -143,7 +143,7 @@ In the Judging tab, you can control the parameters associated with judging.
 * **Number of rooms:** How many judging panels are available?  A general rule of thumb is that you should have one judge panel for every 10-12 teams.
 * **Location names:** Change these to help teams find where to go.
 
-![Customisation Tab, Judging](./screenshots/custom-tab-judging.png)
+![Customisation Tab, Judging](screenshots/custom-tab-judging.PNG)
 
 Judging tab advanced features:
 * **Add judging:** The plus sign next to “Advanced” allows you to add another judging session if you need to.  This should not be necessary for 2018 regional tournaments, but you can add in scheduled Core Values or Robot Design judging as needed.
@@ -152,7 +152,7 @@ Judging tab advanced features:
 * **Extra time every N:** This adds extra time to every N judging sessions (specified).  If it fits in the schedule, this can help the judges feel more comfortable, as they can take a quick break, get a coffee, etc.  Keeping your volunteers happy is an important job as tournament director!
 * **Delete round:**  You can delete any judging set. Generally, don’t bother unless a non-standard tournament.
 
-![Customisation Tab, Judging, Advanced mode ](./screenshots/custom-tab-judging-advanced.png)
+![Customisation Tab, Judging, Advanced mode ](screenshots/custom-tab-judging-advanced.PNG)
 
 ### Rounds
 In the Rounds tab, you can control the parameters associated with robot rounds.
@@ -164,7 +164,7 @@ In the Rounds tab, you can control the parameters associated with robot rounds.
 * **Simultaneous teams:** How many teams compete at any one time?  This should also be a multiple of 2.  If this is set to 2, matches are “staggered” (they alternate between which tables get played), while if it’s set to the same number as tables, you can run multiple pairs of teams at once, but probably need a bigger buffer time to clean up.  Generally, staggered is the best approach so leave this at 2.
 * **Location names:**  Change these if your tables have names; for instance, if the tables are coloured it will help the volunteers and teams find them if you change them here.
 
-![Customisation Tab, Rounds](./screenshots/custom-tab-rounds.png)
+![Customisation Tab, Rounds](screenshots/custom-tab-rounds.PNG)
 
 Rounds tab advanced features:
 * **Add round:** The plus sign next to “Advanced” allows you to add another round if you need to.  This should not be necessary generally, as three rounds is recommended by FLL.
@@ -173,7 +173,7 @@ Rounds tab advanced features:
 * **Extra time every N:** This adds extra time to every N rounds (specified).  If it fits in the schedule, this can help the field volunteers keep on time throughout the day.  Typically, not necessary.
 * **Delete round:**  You can delete any round.  Generally don’t bother unless a non-standard tournament.
 
-![Customisation Tab, Rounds, Advanced mode ](./screenshots/custom-tab-rounds-advanced.png)
+![Customisation Tab, Rounds, Advanced mode ](screenshots/custom-tab-rounds-advanced.PNG)
 
 ### Practice
 The Practice tab is exactly like the Rounds tab, except rounds defined in this way are separate in schedule and scoring system as they do not count towards a team’s score.
@@ -184,16 +184,16 @@ In the Breaks tab, you can edit any of the scheduled breaks.  Breaks apply to al
 * **Will be done by:** Specify the time the break ends.
 * **Break applies to…:** Opens the modal shown on the right; you can specify which scheduled events the break applies to.  For instance, if you want to give your judges a half-hour break but the robot rounds don’t need a break, unselect “All” and select all three judging sessions.
 
-![Customisation Tab, Breaks](./screenshots/custom-tab-breaks.png)
+![Customisation Tab, Breaks](screenshots/custom-tab-breaks.PNG)
 
-![Customisation Tab, Breaks,  Applies](./screenshots/custom-tab-breaks-applies.png)
+![Customisation Tab, Breaks,  Applies](screenshots/custom-tab-breaks-applies.PNG)
 
 Advanced break features:
 * **Add break:** The plus sign next to Advanced lets you add new breaks.
 * **Change break name:** If you add a new break, you may wish to change the name of any or all of the breaks.
 * **Delete:** Delete any breaks you don’t need.
 
-![Customisation Tab, Breaks, Advanced mode ](./screenshots/custom-tab-breaks-advanced.png)
+![Customisation Tab, Breaks, Advanced mode ](screenshots/custom-tab-breaks-advanced.PNG)
 
 <a name="output"></a>
 # 4. Output
@@ -201,7 +201,7 @@ Upon generating a schedule, you will be presented with the details of the genera
 
 If any errors occurred in scheduling, a message will pop up at this stage.  In this case, you do not want to use the schedule as some teams will not do everything.  Press the “Change parameters” button, at which point you can either edit your parameters to make the schedule more doable or re-generate and hope it works (there is a random element to generation, so if it fails, that doesn’t mean it always will).
 
-![Output tab, Sessions](./screenshots/output-tab-sessions.png)
+![Output tab, Sessions](screenshots/output-tab-sessions.PNG)
 
 There are three sections to the output window, explained below.
 
@@ -218,7 +218,7 @@ As of v3.1.0, you can swap teams in the schedule.  Simply switch on “Editable�
 ## Individual schedules tab
 The **Individual schedules** tab (shown below) shows the schedule for each team individually.  As with Session schedules, this table is an embedded spreadsheet which can easily be copied across to a document if needed.
 
-![Output tab, Teams](./screenshots/output-tab-indiv.png)
+![Output tab, Teams](screenshots/output-tab-indiv.PNG)
 
 ## Generate Outputs tab
 This tab allows you to download the schedule in different formats.  If you press either “Go!” button, you will be asked to provide a file name and then the files will be downloaded.  Three file types will be downloaded:
@@ -231,7 +231,7 @@ The PDF format includes multiple commonly used tournament print-out documents, d
 
 As stated earlier, you can use the table views in the Session schedules and Individual schedules tab to manually generate document printouts that look however you like; these PDF outputs are simply a quick and easy way to make printouts that work for pretty much any tournament.
 
-![Output tab, Generate outputs](./screenshots/output-tab-gen.png)
+![Output tab, Generate outputs](screenshots/output-tab-gen.PNG)
 
 If you enter the **Edit PDF Format** dialog (shown below), you can change multiple aspects of the downloaded PDF.  However, it is perfectly fine to use without editing these.
 
@@ -239,7 +239,7 @@ There are two font sizes that can be edited: The **Title font size** controls th
 
 There are four logos on the page, one in each corner.  These can be edited by clicking on them to upload new files.  We recommend using JPG or PNG files, though other types may work.  If the PDF output fails, there may be an issue with your custom logos/images.
 
-![Output tab, PDF format](./screenshots/output-tab-pdf-format.png)
+![Output tab, PDF format](screenshots/output-tab-pdf-format.PNG)
 
 ### PDF Outputs
 Typically, when you download PDF’s, Six files will be downloaded (you may need to authorise the page to download multiple files):
@@ -250,9 +250,9 @@ Typically, when you download PDF’s, Six files will be downloaded (you may need
 * **Day schedule:** The same output as in the sidebar, on the official template.
 * **Team list:** List of all teams and their associated number, on the official template.
 
-![Output PDF, schedule](./screenshots/output-pdf-schedule.png)
+![Output PDF, schedule](screenshots/output-pdf-schedule.PNG)
 
-![Output PDF, individual](./screenshots/output-pdf-indiv.png)
+![Output PDF, individual](screenshots/output-pdf-indiv.PNG)
 
 <a name="tips"></a>
 # 5. Tips & Tricks
