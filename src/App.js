@@ -85,7 +85,7 @@ class App extends Component {
 
     onSave(fname) {
       let filename=fname;
-      if (!fname) filename =prompt("Enter filename", this.state.eventParams.title.replace(/ /g, '_'));
+      if (!filename) filename=prompt("Enter filename", this.state.eventParams.title.replace(/ /g, '_'));
       // let json_str = JSON.stringify(this.state.eventParams,freeze);
       let json_str = JSON.stringify(this.state,freeze);
       if (filename != null) saveToFile_json(filename+".schedule",json_str);

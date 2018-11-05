@@ -58,7 +58,7 @@ export default class TopBar extends React.Component {
                                 <MdInfoOutline size={20}/>
                             </DropdownToggle>
                             <DropdownMenu right>
-                                <a target="_blank" rel="noopener noreferrer" href={"https://drive.google.com/open?id=1bbdek1d92aZhVv0zg4yYVX5XrnqQVFve"}>
+                                <a target="_blank" rel="noopener noreferrer" href={"https://github.com/frewes/scheduler"}>
                                     <DropdownItem>Manual</DropdownItem>
                                 </a>
                                 <a target="_blank" rel="noopener noreferrer" href={"https://goo.gl/forms/rJOM0xa24MVZqVhh2"}>
@@ -70,7 +70,7 @@ export default class TopBar extends React.Component {
                                 </a>
                             </DropdownMenu>
                         </UncontrolledDropdown>
-                        <NavItem data-tip="Save current progress" onClick={this.props.onSave}><NavLink><MdFileDownload size={20}/></NavLink></NavItem>
+                        <NavItem data-tip="Save current progress" onClick={() => {this.props.onSave();}}><NavLink><MdFileDownload size={20}/></NavLink></NavItem>
                         <ReactTooltip place="bottom" type="light" effect="solid"/>
                         <NavItem data-tip="Load previous schedule" ><NavLink><label><MdFileUpload size={20}/><input type="file" accept=".schedule" onChange={this.onFileChange} hidden ref="input" /></label></NavLink></NavItem>
                     </Nav>
