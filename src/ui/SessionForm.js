@@ -28,6 +28,7 @@ export default class SessionForm extends React.Component {
         this.updateExtraFirst = this.updateExtraFirst.bind(this);
         this.updateExtraEvery = this.updateExtraEvery.bind(this);
         this.updateNLocs = this.updateNLocs.bind(this);
+        this.updateOverlap = this.updateOverlap.bind(this);
 
         this.updateLocs = this.updateLocs.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
@@ -54,24 +55,41 @@ export default class SessionForm extends React.Component {
     updateLen(value) {
         let S = this.props.session;
         S.len = value;
+        S.overlap = Math.floor(Math.min(S.overlap, (S.len + S.buf) - (S.len + S.buf)*S.nSims/S.nLocs));
         this.props.onChange(S);
+    }
+
+    updateOverlap(value) {
+        let S = this.props.session;
+
+        // If overlap means matches will happen too quickly, don't update it.
+        if (value > (S.len + S.buf) - (S.len + S.buf)*S.nSims/S.nLocs) {
+            alert("Overlap is too large");
+        } else {
+            S.overlap = value;
+            this.props.onChange(S);
+        }
     }
 
     updateBuf(value) {
         let S = this.props.session;
         S.buf = value;
+        S.overlap = Math.floor(Math.min(S.overlap, (S.len + S.buf) - (S.len + S.buf)*S.nSims/S.nLocs));
         this.props.onChange(S);
     }
 
     updateNSims(value) {
         let S = this.props.session;
         S.nSims = value;
+        S.overlap = Math.floor(Math.min(S.overlap, (S.len + S.buf) - (S.len + S.buf)*S.nSims/S.nLocs));
         this.props.onChange(S);
     }
 
     updateNLocs(value) {
         let S = this.props.session;
         S.nLocs = value;
+
+        S.overlap = Math.floor(Math.min(S.overlap, (S.len + S.buf) - (S.len + S.buf)*S.nSims/S.nLocs));
         this.setState({grid: this.getDataGrid()});
         this.props.onChange(S);
     }
@@ -160,6 +178,9 @@ export default class SessionForm extends React.Component {
                         {this.props.session.type !== TYPES.BREAK &&
                         <NumberInput label="Buffer/cleanup time (mins)" min={0} value={this.props.session.buf}
                                      onChange={this.updateBuf}/>}
+                        {(this.props.session.type === TYPES.MATCH_ROUND || this.props.session.type === TYPES.MATCH_ROUND_PRACTICE) &&
+                        <NumberInput label="Overlap (mins)" min={0} value={this.props.session.overlap}
+                                     onChange={this.updateOverlap}/>}
                         {this.props.session.type !== TYPES.BREAK && (
                             this.props.session.type === TYPES.JUDGING ?
                                 <NumberInput label="Number of rooms" min={1} value={this.props.session.locations.length}

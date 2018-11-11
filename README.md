@@ -7,6 +7,11 @@
 
 <a name="changes"></a>
 # 1. Changelog
+## Version 3.4.0
+* Added "overlap" field to make matches with multiple tables work better.
+* Fixed bug in travel time reporting.
+* Updated algorithm for populating tournament at the start.
+
 ## Version 3.3.3
 * Edited individual schedule output format to make it possible to copy it somewhere else as a table.
 
@@ -109,7 +114,7 @@ There are six tabs in the Customisation screen.  Each controls a different aspec
 ### Basics
 The Basics tab specifies the tournament details.  There are, by default, three settings in this section:
 * **Title:** Same as the setting in the original screen.
-* **Minimum travel time (minutes):** It’s generally unreasonable to expect teams to have a match starting at the same time as their judging session finishes, and this is a really easy way to have a schedule run late with grumpy teams.  Instead, we add a buffer time to allow teams to travel between different events.  10 minutes is the default, and is generally a good estimate, though you can try turning it up to give teams more time.  If the schedule is failing to generate, lowering this number might help (especially if judging and robot matches are close to each other).
+* **Minimum travel time (minutes):** It’s generally unreasonable to expect teams to have a match starting at the same time as their judging session finishes, and this is a really easy way to have a schedule run late with grumpy teams.  Instead, we add a buffer time to allow teams to travel between different events.  10 minutes is the default, though you should try to increase this as much as possible while still successfully scheduling.  If the schedule is failing to generate, lowering this number might help (especially if judging and robot matches are close to each other). 
 * **Day names:** In a single-day tournament, this control is not necessary.  In a multi-day tournament, this sets how the days are referred to.
 
 ![Customisation Tab, Basics](screenshots/custom-tab-basics.PNG)
@@ -163,6 +168,7 @@ In the Rounds tab, you can control the parameters associated with robot rounds.
 * **Will be done by:** Not editable, this tells you when the last match of the round will finish
 * **Duration (minutes):** How long the actual match is; i.e. how long the team is at the table.
 * **Buffer/cleanup time (mins):** Time in between one team leaving and the other walking in.  This time will cut into a team’s travel time, as it’s specifically for the volunteers to clean up between matches.
+* **Overlap (mins):** Amount of "stagger" when using multiple tables.  If set to a non-zero number, matches will start during the buffer time of previous matches.
 * **Number of tables:** How many tables are there?  This should always be a multiple of 2, as tables need to be back-to-back.
 * **Simultaneous teams:** How many teams compete at any one time?  This should also be a multiple of 2.  If this is set to 2, matches are “staggered” (they alternate between which tables get played), while if it’s set to the same number as tables, you can run multiple pairs of teams at once, but probably need a bigger buffer time to clean up.  Generally, staggered is the best approach so leave this at 2.
 * **Location names:**  Change these if your tables have names; for instance, if the tables are coloured it will help the volunteers and teams find them if you change them here.

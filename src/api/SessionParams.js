@@ -21,6 +21,7 @@ export default class SessionParams {
         this.nSims = this.locations.length;
         this.len = 10;
         this.buf = 5;
+        this.overlap=0;
 
         this.schedule = []; // To be filled in later
         this.errors = 0;
@@ -84,6 +85,9 @@ export default class SessionParams {
     get len() { return (this._type === TYPES.BREAK) ? 0 : this._len;}
     set len(value) { this._len = value; }
 
+    get overlap() { return this._overlap;}
+    set overlap(value) { if (value >= 0) this._overlap = value; }
+
     get buf() { return (this._type === TYPES.BREAK) ? this.endTime.mins-this.startTime.mins : this._buf;}
     set buf(value) { this._buf = value; }
 
@@ -129,6 +133,7 @@ export default class SessionParams {
         _nSims : o._nSims,
         _len : o._len,
         _buf : o._buf,
+        _overlap : o._overlap,
         _schedule : o._schedule,
         _errors : o._errors,
         _instances : o._instances,
@@ -150,6 +155,7 @@ export default class SessionParams {
       S._nSims = o._nSims;
       S._len = o._len;
       S._buf = o._buf;
+      S._overlap = o._overlap;
       S._schedule = o._schedule;
       S._errors = o._errors;
       S._instances = o._instances;

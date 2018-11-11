@@ -100,23 +100,19 @@ export class EventParams {
             this.getSession(this.uid_counter-1).universal = true;
         }
 
+        // let rdLen = matchLen + matchBuf;
+        // let rdBuf = 0;
+        let rdLen = 10;
+        let rdBuf = 5;
+        let rdOverlap = (this.nTables === 2) ? 0 : 15 - Math.ceil(30/this.nTables);
+
         let timeAvailable = this.endTime.mins - this.startTime.mins;
         this.sessions.filter(s=>s.type===TYPES.BREAK).forEach(s=>{timeAvailable = timeAvailable - (s.endTime.mins-s.startTime.mins)});
-        let timePerMatch = Math.floor(timeAvailable / (this.nTeams * 3 / 2));
+        timeAvailable = timeAvailable - ((this.nTeams / 2) * (rdLen + rdBuf - rdOverlap));
+        let timePerMatch = Math.floor(timeAvailable / (this.nTeams * 2 / 2));
 
-        let matchLen = Math.min(Math.ceil(timePerMatch/2),5);
-        let matchBuf = Math.max(timePerMatch-matchLen,0);
-
-        let rdLen = matchLen + matchBuf;
-        let rdBuf = 0;
-        // matchLen -= 1;
-        // matchBuf -= 1;
-        let d = (rdLen+rdBuf - Math.ceil(30/this.nTables))
-        if (d < 0 && this.pilot) {
-            rdLen -= d;
-            // rdBuf -= Math.ceil(d/2);
-            matchBuf += Math.floor(d/2);
-        }
+        let matchLen = Math.min(timePerMatch,4);
+        let matchBuf = Math.max(timePerMatch-matchLen-1,0);
 
         let nSims = 2;
         for (let i = 1; i <= 3; i++) {
@@ -125,6 +121,7 @@ export class EventParams {
             S.nSims = nSims;
             S.len = ( i === 1 ) ? rdLen : matchLen;
             S.buf = ( i === 1 ) ? rdBuf : matchBuf;
+            S.overlap = ( i === 1 ) ? rdOverlap : 0;
             this.sessions.push(S);
         }
         if (!this.pilot) {
@@ -133,11 +130,11 @@ export class EventParams {
             this.sessions.push(new SessionParams(this.uid_counter++,TYPES.JUDGING, "Core Values Judging", nLocs,
                 actualStart.clone(), actualEnd.clone()));
         } else {
-            let roundOneLength = (rdLen+rdBuf)*(this.nTeams/2);
+            let roundOneLength = (rdLen+rdBuf-rdOverlap)*(this.nTeams/2);
             let roundOneEnd = actualStart.mins + roundOneLength;
             console.log(this.sessions[1]);
             console.log(roundOneEnd);
-            let dif = roundOneEnd - this.sessions[1].startTime.mins;
+            let dif = Math.ceil(roundOneEnd - this.sessions[1].startTime.mins);
             console.log(dif);
             if (dif > 0) {
                 this.sessions[1].startTime = this.sessions[1].startTime.clone(dif);
@@ -506,8 +503,8 @@ export class EventParams {
 
     minTravelTime(team) {
         let minTravel = Infinity;
-        team.schedule.forEach(i => {
-            team.schedule.forEach(j => {
+        team.schedule.filter(i => this.getSession(i.session_id).type !== TYPES.BREAK).forEach(i => {
+            team.schedule.filter(i => this.getSession(i.session_id).type !== TYPES.BREAK).forEach(j => {
                 if (i !== j) {
                     let sA = i.time.mins;
                     let eA = i.time.mins + this.getSession(i.session_id).len + (i.extraTime?this.extraTime:0);

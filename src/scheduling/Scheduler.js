@@ -125,7 +125,7 @@ export class Scheduler {
                 let whenDone = this.timeInc(now, session.len, session);
                 if (whenDone !== (now.mins + session.len)) now = new DateTime(whenDone);
                 session.schedule[i] = new Instance(session.id,i+1+numOffset,now,new Array(session.nSims),locOffset);
-                now = new DateTime(this.timeInc(now,session.len+session.buf,session));
+                now = new DateTime(this.timeInc(now,session.len+session.buf-session.overlap,session));
                 roundsSinceExtra++;
                 if ((i === 0 && session.extraTimeFirst) || (roundsSinceExtra >= everyN)) {
                     if (!(flag && extraRounds >= extraRoundsNeeded)) {
@@ -137,7 +137,7 @@ export class Scheduler {
                 }
             } else {
                 session.schedule[i] = new Instance(session.id,i+1+numOffset,now,new Array(lastNTeams),locOffset);
-                now = new DateTime(now.mins + session.len + session.buf);
+                now = new DateTime(now.mins + session.len + session.buf - session.overlap);
                 roundsSinceExtra++;
                 if (roundsSinceExtra >= everyN) {
                     if (flag && extraRounds >= extraRoundsNeeded) {
