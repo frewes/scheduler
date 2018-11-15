@@ -7,6 +7,9 @@
 
 <a name="changes"></a>
 # 1. Changelog
+## Version 3.4.1
+* Renamed "pit no" to "affiliation" to bring it in line with the FLL Tournament Management System
+
 ## Version 3.4.0
 * Added "overlap" field to make matches with multiple tables work better.
 * Fixed bug in travel time reporting.
