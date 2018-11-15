@@ -129,7 +129,7 @@ In the Teams tab, you set the details of each individual team.  You can also add
 * **Add teams:** Set the number to decide how many teams to add, then press the “Add” button.
 * **Team number:**  Each team is assigned a tournament-specific team number, as a shorthand to uniquely identify them.  Generally, the system-generated ones are sufficient.
 * **Team name:** Each team should have a unique name.
-* **Pit number:** This is a value used in the FLL Scoring System, but does not need to be set for most tournaments; feel free to ignore this.
+* **Pit number (now Affiliation):** This is a value used in the FLL Scoring System, but does not need to be set for most tournaments; feel free to ignore this.
 * **Delete team:** Press the red delete button to remove a particular team.
 
 ![Customisation Tab, Teams](screenshots/custom-tab-teams.PNG)

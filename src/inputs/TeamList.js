@@ -159,7 +159,7 @@ export default class TeamList extends React.Component {
                             <tr>
                                 <th>Team number</th>
                                 <th>Team name</th>
-                                <th>Pit No.</th>
+                                <th>Affiliation</th>
                                 {this.props.advanced && <th>Exclude from judging?</th>}
                                 {this.props.advanced && <th>Extra time?</th>}
                                 {this.props.advanced && <th>Arrives</th>}
