@@ -7,6 +7,13 @@
 
 <a name="changes"></a>
 # 1. Changelog
+## Version 3.4.2
+* Default team affiliation set to team number
+* Added comma or tab delimited team input
+* Fixed bug relating to tabs in team names
+* Fixed a bug in schedule file loading
+* Tied locations together for matches and practice rounds.
+
 ## Version 3.4.1
 * Renamed "pit no" to "affiliation" to bring it in line with the FLL Tournament Management System
 
@@ -104,7 +111,7 @@ When you open the scheduler, you’ll see an interface to select basic tournamen
 * **Number of days:** If you are running a 2- or 3-day tournament, change this value; standard tournaments should not need to change this.
 Day names: Only to be used for multi-day tournaments, specify what the days are called.  E.g. “Day 1 / Day 2”, “Fri / Sat / Sun”, “4th / 5th”, etc.  For single day tournaments, this will not affect anything.
 * **Start time / End time:** What time the tournament starts and ends.  By default, a half-hour opening and closing ceremony will be added, so if you want matches and judging to start at 9:00 AM, start time should be 8:30 AM.
-* **Team names:** Here, add your list of team names.  If you have added any number of stand-ins, remember to add their names as such.
+* **Team names:** Here, add your list of team names.  This can be a simple list, or a tab-delimited or comma-delimited table.  In the case of a delimited table, each line should either be "number,name" or "number,name,affiliation".  If you have added any number of stand-ins, remember to add their names as such.
 At this point, press “Generate” and move on to  “Output”.
 
 ![Init Form](screenshots/init-form.png)
@@ -174,7 +181,7 @@ In the Rounds tab, you can control the parameters associated with robot rounds.
 * **Overlap (mins):** Amount of "stagger" when using multiple tables.  If set to a non-zero number, matches will start during the buffer time of previous matches.
 * **Number of tables:** How many tables are there?  This should always be a multiple of 2, as tables need to be back-to-back.
 * **Simultaneous teams:** How many teams compete at any one time?  This should also be a multiple of 2.  If this is set to 2, matches are “staggered” (they alternate between which tables get played), while if it’s set to the same number as tables, you can run multiple pairs of teams at once, but probably need a bigger buffer time to clean up.  Generally, staggered is the best approach so leave this at 2.
-* **Location names:**  Change these if your tables have names; for instance, if the tables are coloured it will help the volunteers and teams find them if you change them here.
+* **Location names:**  Change these if your tables have names; for instance, if the tables are coloured it will help the volunteers and teams find them if you change them here.  Note that changing the location names for any Round or Practice round changes it for all of them; at the moment, there's no way to run different rounds on different tables.
 
 ![Customisation Tab, Rounds](screenshots/custom-tab-rounds.PNG)
 

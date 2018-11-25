@@ -13,27 +13,6 @@ import BooleanInput from "../inputs/BooleanInput";
 import ReactDataSheet from 'react-datasheet';
 
 export default class SessionForm extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            grid: this.getDataGrid()
-        };
-        this.updateName = this.updateName.bind(this);
-        this.updateStartTime= this.updateStartTime.bind(this);
-        this.updateEndTime = this.updateEndTime.bind(this);
-        this.updateLen = this.updateLen.bind(this);
-        this.updateBuf = this.updateBuf.bind(this);
-        this.updateNSims = this.updateNSims.bind(this);
-        this.updateExtraFirst = this.updateExtraFirst.bind(this);
-        this.updateExtraEvery = this.updateExtraEvery.bind(this);
-        this.updateNLocs = this.updateNLocs.bind(this);
-        this.updateOverlap = this.updateOverlap.bind(this);
-
-        this.updateLocs = this.updateLocs.bind(this);
-        this.handleDelete = this.handleDelete.bind(this);
-    }
-
     updateName(value) {
         let S = this.props.session;
         S.name = value;
@@ -118,7 +97,7 @@ export default class SessionForm extends React.Component {
     }
 
     updateLocs(changes) {
-        const grid = this.state.grid.map(row => [...row]);
+        const grid = this.getDataGrid().map(row => [...row]);
         changes.forEach(({cell, row, col, value}) => {
             grid[row][col] = {...grid[row][col], value}
         });
@@ -144,7 +123,7 @@ export default class SessionForm extends React.Component {
                     <Form>
                         <TextInput label="Title" nolabel value={this.props.session.name} onChange={this.updateName}/>
                         {this.props.session.type !== TYPES.BREAK && <ReactDataSheet
-                            data={this.state.grid}
+                            data={this.getDataGrid()}
                             valueRenderer={(cell) => cell.value}
                             sheetRenderer={(props) => (
                                 <Table className="datagrid-custom">
@@ -199,7 +178,7 @@ export default class SessionForm extends React.Component {
                                      onChange={this.updateExtraEvery}/>}
                         {this.props.session.type !== TYPES.BREAK && <strong>Locations</strong>}
                         {this.props.session.type !== TYPES.BREAK && <ReactDataSheet
-                            data={this.state.grid}
+                            data={this.getDataGrid()}
                             valueRenderer={(cell) => cell.value}
                             sheetRenderer={(props) => (
                                 <Table className="datagrid-custom">

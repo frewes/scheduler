@@ -67,10 +67,11 @@ export default class DetailView extends React.Component {
         for (let i = 0; i < E.sessions.length; i++) {
             if (E.sessions[i].id === S.id) {
                 E.sessions[i] = S;
-                this.props.onChange(E);
                 break;
             }
         }
+        E.syncLocs(S);
+        this.props.onChange(E);
     }
 
     toggleModal(session) {
@@ -108,13 +109,17 @@ export default class DetailView extends React.Component {
       let S = null;
       if (this.state.activeTab === 'judging')
         S = new SessionParams(E.uid_counter+1, TYPES.JUDGING, "Judging", 4, E.startTime.clone(), E.endTime.clone());
-      else if (this.state.activeTab === 'rounds')
-        S = new SessionParams(E.uid_counter+1, TYPES.MATCH_ROUND, "Round X", 4, E.startTime.clone(), E.endTime.clone());
+      else if (this.state.activeTab === 'rounds') {
+          S = new SessionParams(E.uid_counter + 1, TYPES.MATCH_ROUND, "Round X", 4, E.startTime.clone(), E.endTime.clone());
+          S.locations = E.sessions.filter(s => s.type === TYPES.MATCH_ROUND)[0].locations;
+      }
       else if (this.state.activeTab === 'breaks') {
         S = new SessionParams(E.uid_counter+1, TYPES.BREAK, "Break", 1, E.startTime.clone(), E.endTime.clone());
         S.universal = true;
-      } else if (this.state.activeTab === 'practice')
-        S = new SessionParams(E.uid_counter+1, TYPES.MATCH_ROUND_PRACTICE, "Practice Round X", 4, E.startTime.clone(), E.endTime.clone());
+      } else if (this.state.activeTab === 'practice') {
+          S = new SessionParams(E.uid_counter + 1, TYPES.MATCH_ROUND_PRACTICE, "Practice Round X", 4, E.startTime.clone(), E.endTime.clone());
+          S.locations = E.sessions.filter(s => s.type === TYPES.MATCH_ROUND)[0].locations;
+      }
       else return;
       E.sessions.push(S);
       E.uid_counter = E.uid_counter+1;

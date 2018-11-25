@@ -150,12 +150,18 @@ export default class SessionParams {
       S._universal = o._universal;
       S._startTime = o._startTime;
       S._endTime = o._endTime;
+      if (S._endTime.mins === null && o._actualEndTime.mins === null)
+          S._endTime = S._startTime.clone(30);
+      else if (S._endTime.mins === null) {
+          S._endTime = o._actualEndTime.clone();
+      }
       S._actualStartTime = o._actualStartTime;
       S._actualEndTime = o._actualEndTime;
       S._nSims = o._nSims;
       S._len = o._len;
       S._buf = o._buf;
-      S._overlap = o._overlap;
+      if (typeof o._overlap !== 'undefined')
+        S._overlap = 0;
       S._schedule = o._schedule;
       S._errors = o._errors;
       S._instances = o._instances;

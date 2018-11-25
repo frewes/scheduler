@@ -129,7 +129,7 @@ export default class InitForm extends React.Component {
                     />
                     <DateTimeInput large label="Start time: " value={this.props.event.startTime} onChange={this.updateStartTime}/>
                     <DateTimeInput large label="End time: " value={this.props.event.endTime} onChange={this.updateEndTime}/>
-                    <TextAreaInput large label="Team names:" rows={10} placeholder="List of team names" onChange={this.updateTeamNames}/>
+                    <TextAreaInput large label="Team names:" rows={10} placeholder="List of teams: (Name) OR (Number,Name) OR (Number,Name,Affiliation)" onChange={this.updateTeamNames}/>
                 </Form>
             </Container>
         );

@@ -9,7 +9,7 @@ export class TeamParams {
         this.id = id;
 
         // So far unused
-        this.pitNum = 0;
+        this.pitNum = number;  // Is actually "affiliation", but cbf to refactor it.
         this.extraTime = false;
         this.excludeJudging = false;
         this.startTime = new DateTime(null);
@@ -19,7 +19,9 @@ export class TeamParams {
     }
 
     get name() { return this._name; }
-    set name(value) { this._name = value; }
+    set name(value) {
+        this._name = value.replace(/\s+/g, " ");
+    }
 
     get number() { return this._number }
     set number(value) { this._number = value; }

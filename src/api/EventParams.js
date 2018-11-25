@@ -57,14 +57,32 @@ export class EventParams {
     populateFLL() {
         // Set team names
         if (this.tempNames) {
-            let names = this.tempNames.split("\n");
+            let lines = this.tempNames.split("\n");
             this.teams.forEach(t => {
-                let saved = t.name;
-                if (names.length > 0)
-                    t.name = names.shift();
-                if (t.name === "") t.name = saved;
+                let savedName = t.name;
+                let savedNum = t.number;
+                let savedAffil = t.pitNum;
+                if (lines.length > 0) {
+                    let l = lines.shift().replace(/\t+|,/g, "\t");
+                    let fields = l.split("\t");
+                    if (fields.length > 2) {
+                        t.number = fields[0];
+                        t.name = fields[1];
+                        t.pitNum = fields[2];
+                    } else if (fields.length > 1) {
+                        t.number = fields[0];
+                        t.name = fields[1];
+                    } else {
+                        t.name = l;
+                    }
+                }
+                if (t.name === "") t.name = savedName;
+                if (t.number === "") t.number = savedNum;
+                if (t.pitNum === "") t.pitNum = savedAffil;
             });
         }
+
+        this.teams = this.teams.sort((a,b) => {return parseInt(a.number,10) - parseInt(b.number,10);});
 
         // First guesses at all schedule parameters.  User can then tweak to their hearts' content without auto updates
         let actualStart = this.startTime.clone(30);
@@ -299,6 +317,16 @@ export class EventParams {
             grid.push(row);
         }
         return grid;
+    }
+
+    /** Assuming the given session has the most up-to-date location names, synchronise other session to this **/
+    syncLocs(S) {
+        console.log("Sync");
+        if (S.type !== TYPES.MATCH_ROUND && S.type !== TYPES.MATCH_ROUND_PRACTICE) return;
+        this.sessions.filter(x => x.type === TYPES.MATCH_ROUND || x.type === TYPES.MATCH_ROUND_PRACTICE).forEach(x => {
+            x.locations = S.locations;
+            console.log(x);
+        });
     }
 
     get version() {return this._version;}
