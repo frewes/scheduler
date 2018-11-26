@@ -7,6 +7,9 @@
 
 <a name="changes"></a>
 # 1. Changelog
+## Version 3.4.4
+* Fixed bug relating to consecutive tabs in input.
+
 ## Version 3.4.3
 * Added pit number back in as an optional field
 
