@@ -52,6 +52,7 @@ export default class TeamList extends React.Component {
             grid.push([]);
             grid[i].push({value: this.props.teams[i].number});
             grid[i].push({value: this.props.teams[i].name});
+            grid[i].push({value: this.props.teams[i].affiliation});
             grid[i].push({value: this.props.teams[i].pitNum});
             if (this.props.advanced) {
                 grid[i].push({value: this.props.teams[i].excludeJudging ? <FaCheckCircleO size={20}/> : <FaTimesCircleO size={20}/>});
@@ -72,7 +73,7 @@ export default class TeamList extends React.Component {
         for (let row = 0; row < grid.length; row++) {
             T[row].number = grid[row][0].value;
             T[row].name = grid[row][1].value;
-            T[row].pitNum = grid[row][2].value;
+            T[row].affiliation = grid[row][2].value;
         }
         this.props.onChange(T);
     }
@@ -160,6 +161,7 @@ export default class TeamList extends React.Component {
                                 <th>Team number</th>
                                 <th>Team name</th>
                                 <th>Affiliation</th>
+                                <th>Pit No</th>
                                 {this.props.advanced && <th>Exclude from judging?</th>}
                                 {this.props.advanced && <th>Extra time?</th>}
                                 {this.props.advanced && <th>Arrives</th>}

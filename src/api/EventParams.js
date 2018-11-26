@@ -61,14 +61,20 @@ export class EventParams {
             this.teams.forEach(t => {
                 let savedName = t.name;
                 let savedNum = t.number;
-                let savedAffil = t.pitNum;
+                let savedAffil = t.affiliation;
+                let savedPit = t.pitNum;
                 if (lines.length > 0) {
                     let l = lines.shift().replace(/\t+|,/g, "\t");
                     let fields = l.split("\t");
-                    if (fields.length > 2) {
+                    if (fields.length > 3) {
                         t.number = fields[0];
                         t.name = fields[1];
-                        t.pitNum = fields[2];
+                        t.affiliation = fields[2];
+                        t.pitNum = fields[3];
+                    } else if (fields.length > 2) {
+                        t.number = fields[0];
+                        t.name = fields[1];
+                        t.affiliation = fields[2];
                     } else if (fields.length > 1) {
                         t.number = fields[0];
                         t.name = fields[1];
@@ -78,7 +84,8 @@ export class EventParams {
                 }
                 if (t.name === "") t.name = savedName;
                 if (t.number === "") t.number = savedNum;
-                if (t.pitNum === "") t.pitNum = savedAffil;
+                if (t.affiliation === "") t.affiliation = savedAffil;
+                if (t.pitNum === "") t.pitNum = savedPit;
             });
         }
 

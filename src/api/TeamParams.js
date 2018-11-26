@@ -9,7 +9,8 @@ export class TeamParams {
         this.id = id;
 
         // So far unused
-        this.pitNum = number;  // Is actually "affiliation", but cbf to refactor it.
+        this.affiliation = number;
+        this.pitNum = number;
         this.extraTime = false;
         this.excludeJudging = false;
         this.startTime = new DateTime(null);
@@ -32,7 +33,8 @@ export class TeamParams {
         number : o.number,
         name : o.name,
         id : o.id,
-        pitNum : o.pitNum,
+        affiliation : o.affiliation,
+        pitNum: o.pitNum,
         extraTime : o.extraTime,
         excludeJudging : o.excludeJudging,
         startTime : o.startTime,
@@ -45,6 +47,7 @@ export class TeamParams {
     static thaw(o) {
       let T = new TeamParams(o.id,o.number);
       T.name = o.name;
+      T.affiliation = o.affiliation;
       T.pitNum = o.pitNum;
       T.extraTime = o.extraTime;
       T.excludeJudging = o.excludeJudging;

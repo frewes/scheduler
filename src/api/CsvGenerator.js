@@ -26,7 +26,7 @@ export class CsvGenerator {
         csv += "Block Format,1\n";
         csv += "Number of Teams,"+this.event.nTeams+"\n";
 
-        this.event.teams.forEach(t => {csv += t.number + "," + t.name + "," + t.pitNum + ",\n";});
+        this.event.teams.forEach(t => {csv += t.number + "," + t.name + "," + t.affiliation + ",\n";});
 
         csv += "Block Format,2\n";
         let rankingMatches = 0;

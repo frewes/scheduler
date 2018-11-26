@@ -80,19 +80,25 @@ export class PdfGenerator {
   teamListPage(teams, download, prefix) {
       this.buildDoc();
       let t = {headerRows: 1, dontBreakRows: true};
-      t.widths = new Array(2);
+      t.widths = new Array(4);
       t.widths[0] = 100;
-      t.widths[1] = 400;
+      t.widths[1] = 200;
+      t.widths[2] = 100;
+      t.widths[3] = 50;
       t.body = [];
       let header = [];
       header.push({text:"Number", alignment: 'center'});
       header.push({text:"Name"});
+      header.push({text:"Affiliation"});
+      header.push({text:"Pit num"});
       t.body.push(header);
 
       teams.forEach(x => {
           let row = [];
           row.push({text:x.number, alignment: 'center'});
           row.push({text:x.name});
+          row.push({text:x.affiliation});
+          row.push({text:x.pitNum});
           t.body.push(row);
       });
 

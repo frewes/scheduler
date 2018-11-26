@@ -7,6 +7,9 @@
 
 <a name="changes"></a>
 # 1. Changelog
+## Version 3.4.3
+* Added pit number back in as an optional field
+
 ## Version 3.4.2
 * Default team affiliation set to team number
 * Added comma or tab delimited team input
@@ -111,7 +114,9 @@ When you open the scheduler, you’ll see an interface to select basic tournamen
 * **Number of days:** If you are running a 2- or 3-day tournament, change this value; standard tournaments should not need to change this.
 Day names: Only to be used for multi-day tournaments, specify what the days are called.  E.g. “Day 1 / Day 2”, “Fri / Sat / Sun”, “4th / 5th”, etc.  For single day tournaments, this will not affect anything.
 * **Start time / End time:** What time the tournament starts and ends.  By default, a half-hour opening and closing ceremony will be added, so if you want matches and judging to start at 9:00 AM, start time should be 8:30 AM.
-* **Team names:** Here, add your list of team names.  This can be a simple list, or a tab-delimited or comma-delimited table.  In the case of a delimited table, each line should either be "number,name" or "number,name,affiliation".  If you have added any number of stand-ins, remember to add their names as such.
+* **Team names:** Here, add your list of team names.  This can be a simple list, or a tab-delimited or comma-delimited table.  In the case of a delimited table, each line should either be "number,name" or "number,name,affiliation,pit_number".  If you have added any number of stand-ins, remember to add their names as such.
+**NB**: If entered here, team names and affiliations may not include commas.  If they must include commas, add them in the "Customisation" screen.
+
 At this point, press “Generate” and move on to  “Output”.
 
 ![Init Form](screenshots/init-form.png)
