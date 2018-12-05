@@ -13,6 +13,24 @@ import BooleanInput from "../inputs/BooleanInput";
 import ReactDataSheet from 'react-datasheet';
 
 export default class SessionForm extends React.Component {
+    constructor(props) {
+        super(props);
+        // Default values....
+        this.updateName = this.updateName.bind(this);
+        this.updateStartTime = this.updateStartTime.bind(this);
+        this.updateEndTime = this.updateEndTime.bind(this);
+        this.updateLen = this.updateLen.bind(this);
+        this.updateOverlap = this.updateOverlap.bind(this);
+        this.updateBuf = this.updateBuf.bind(this);
+        this.updateNSims = this.updateNSims.bind(this);
+        this.updateNLocs = this.updateNLocs.bind(this);
+        this.updateExtraFirst = this.updateExtraFirst.bind(this);
+        this.updateExtraEvery = this.updateExtraEvery.bind(this);
+        this.getDataGrid = this.getDataGrid.bind(this);
+        this.updateLocs = this.updateLocs.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+    }
+
     updateName(value) {
         let S = this.props.session;
         S.name = value;
@@ -84,7 +102,6 @@ export default class SessionForm extends React.Component {
         S.extraTimeEvery = value;
         this.props.onChange(S);
     }
-
 
     getDataGrid() {
         let grid = [];

@@ -7,6 +7,9 @@
 
 <a name="changes"></a>
 # 1. Changelog
+## Version 3.4.5
+* Fixed breaking bug.
+
 ## Version 3.4.4
 * Fixed bug relating to consecutive tabs in input.
 
