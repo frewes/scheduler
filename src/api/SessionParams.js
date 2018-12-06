@@ -160,7 +160,8 @@ export default class SessionParams {
       S._nSims = o._nSims;
       S._len = o._len;
       S._buf = o._buf;
-      if (typeof o._overlap !== 'undefined')
+      S._overlap = o._overlap;
+      if (typeof o._overlap === 'undefined')
         S._overlap = 0;
       S._schedule = o._schedule;
       S._errors = o._errors;

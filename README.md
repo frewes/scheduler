@@ -7,6 +7,10 @@
 
 <a name="changes"></a>
 # 1. Changelog
+## Version 3.4.6
+* Fixed issue relating to changing font size.
+* Fixed issue when loading a schedule where overlap was always set to 0.
+
 ## Version 3.4.5
 * Fixed breaking bug.
 
