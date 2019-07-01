@@ -37,10 +37,11 @@ export class PdfGenerator {
       prefix=prompt("File name prefix", this.event.title.replace(/ /g,"-"));
       if (prefix === null) return;
     }
+    let base = this.styleDict.teamEntry.fontSize;
     // for (let i = 0; i < this.event.teams.length; i++) {
-    //   if (this.event.teams[i].name.length > 12) this.styleDict.teamEntry.fontSize -= 1;
-    //   if (this.event.teams[i].name.length > 16) this.styleDict.teamEntry.fontSize -= 2;
-    //   if (this.event.teams[i].name.length > 20) this.styleDict.teamEntry.fontSize -= 3;
+    //    if (this.event.teams[i].name.length > 12) this.styleDict.teamEntry.fontSize = this.styleDict.teamEntry.fontSize - 1;
+    //    if (this.event.teams[i].name.length > 16) this.styleDict.teamEntry.fontSize = this.styleDict.teamEntry.fontSize - 2;
+    //    if (this.event.teams[i].name.length > 20) this.styleDict.teamEntry.fontSize = this.styleDict.teamEntry.fontSize - 3;
     // }
     this.sessionPdf(TYPES.JUDGING,download,prefix);
     this.sessionPdf(TYPES.MATCH_ROUND,download,prefix);
@@ -152,9 +153,9 @@ export class PdfGenerator {
     // you can declare how many rows should be treated as headers
     let t = {headerRows: 1,dontBreakRows: true};
     t.widths = new Array(session.nLocs+2);
-    let w = 475/(session.nLocs+2);
-    for (let i = 0; i < session.nLocs+2; i++) t.widths[i] = (i<2) ? 'auto':'*';
-    t.widths[0] = w;
+    let w = 425/(session.nLocs+2);
+    for (let i = 0; i < session.nLocs+2; i++) t.widths[i] = w; //(i<2) ? 'auto':'*';
+    //t.widths[0] = w;
     t.body = [];
     //Header row
     let header = [];
@@ -199,7 +200,7 @@ export class PdfGenerator {
     for (let i = 0; i < N; i++) {
       t.widths[i] = w;
     }
-    t.widths[1] = '*';
+    t.widths[1] = w;//'*';
     t.body = [];
     for (let k = 0; k < data.length; k++) {
       t.body[k] = [];
