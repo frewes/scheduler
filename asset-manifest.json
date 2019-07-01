@@ -1,9 +1,9 @@
 {
   "main.css": "static/css/main.e10a458b.css",
   "main.css.map": "static/css/main.e10a458b.css.map",
-  "main.js": "static/js/main.56fa217d.js",
-  "main.js.map": "static/js/main.56fa217d.js.map",
-  "static/media/flllogo.jpg": "static/media/flllogo.acc52cf3.jpg",
-  "static/media/gamelogo.jpg": "static/media/gamelogo.63976ad4.jpg",
-  "static/media/mqlogo.png": "static/media/mqlogo.44934533.png"
+  "main.js": "static/js/main.a9d96546.js",
+  "main.js.map": "static/js/main.a9d96546.js.map",
+  "static\\media\\flllogo.jpg": "static/media/flllogo.acc52cf3.jpg",
+  "static\\media\\gamelogo.jpg": "static/media/gamelogo.63976ad4.jpg",
+  "static\\media\\mqlogo.png": "static/media/mqlogo.44934533.png"
 }
