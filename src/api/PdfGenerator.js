@@ -233,7 +233,7 @@ export class PdfGenerator {
   teamPage(team) {
     let schedule = [];
     for (let i = 0; i < team.schedule.length; i++)
-    if (team.schedule[i].teams) schedule.push(team.schedule[i]);
+      if (team.schedule[i].teams) schedule.push(team.schedule[i]);
     schedule.sort(function(a,b) {
       return a.time.mins - b.time.mins;
     });
@@ -251,7 +251,8 @@ export class PdfGenerator {
     t.body[0][2] = {text:"Location"};
     for (let i = 0; i < schedule.length; i++) {
       // If it's a break that applies to specific sessions, don't put it in.
-      if (this.event.getSession(schedule[i].session_id).type === TYPES.BREAK && this.event.getSession(schedule[i].session_id).appliesTo.length > 0) continue;
+        // If it's a break full stop, don't put it in - the powers that be don't like it
+      if (this.event.getSession(schedule[i].session_id).type === TYPES.BREAK/* && this.event.getSession(schedule[i].session_id).appliesTo.length > 0*/) continue;
       let row = [];
       let spot = schedule[i].teams.indexOf(team.id);
       let num =" ("+schedule[i].num+")";
