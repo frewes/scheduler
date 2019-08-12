@@ -45,7 +45,7 @@ export default class TopBar extends React.Component {
         return (
             <Navbar color="light" light expand="md">
                 <NavbarBrand><img alt="" width="80px" src={firstlogo}/></NavbarBrand>
-                <NavbarBrand>FLL Scheduler <small>Version {this.props.version}</small></NavbarBrand>
+                <NavbarBrand>FLL Scheduler <small>Version {this.props.version}</small><small>Note: This is deprecated.  Use the <a href="https://westling.io/tournament-in-a-box">Box</a> instead</small></NavbarBrand>
                 <NavbarToggler onClick={this.toggle} />
                 <Collapse isOpen={this.state.isOpen} navbar>
                     <Nav className="ml-auto" navbar>
